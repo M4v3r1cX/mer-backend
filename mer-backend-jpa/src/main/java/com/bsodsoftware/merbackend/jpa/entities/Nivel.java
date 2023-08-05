@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "red")
-public class Red implements Serializable {
+@Table(name = "nivel")
+public class Nivel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -20,9 +20,6 @@ public class Red implements Serializable {
 	
 	@Column(name = "nombre")
 	private String nombre;
-	
-	@Column(name = "descripcion")
-	private String descripcion;
 
 	public Long getId() {
 		return id;
@@ -38,13 +35,5 @@ public class Red implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
 	}
 }
