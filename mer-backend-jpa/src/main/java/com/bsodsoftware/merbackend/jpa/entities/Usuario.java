@@ -24,8 +24,8 @@ public class Usuario implements Serializable {
 	@Column(name = "nombre")
 	private String nombre;
 	
-	@Column(name = "usuario")
-	private String usuario;
+	@Column(name = "nombre_usuario")
+	private String nombreUsuario;
 	
 	@Column(name = "password")
 	private String password;
@@ -56,12 +56,12 @@ public class Usuario implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public String getNombreUsuario() {
+		return nombreUsuario;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 
 	public String getPassword() {
