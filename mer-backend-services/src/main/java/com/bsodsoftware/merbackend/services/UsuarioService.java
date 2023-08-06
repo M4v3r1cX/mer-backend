@@ -15,4 +15,6 @@ public class UsuarioService {
 	public Usuario save(Usuario entity) {
 		return usuarioRepository.save(entity);
 	}
+	
+	//https://www.digitalocean.com/community/tutorials/spring-data-jpa
 }
