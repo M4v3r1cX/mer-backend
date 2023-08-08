@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="mer-backend-jpa" transaction-type="JTA">
+	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+	<jta-data-source>jdbc:mysql://127.0.0.1:3306/mertest</jta-data-source>
+	<class>com.bsodsoftware.merbackend.jpa.entities.Actividad</class>
+	<class>com.bsodsoftware.merbackend.jpa.entities.Libro</class>
+	<class>com.bsodsoftware.merbackend.jpa.entities.Nivel</class>
+	<class>com.bsodsoftware.merbackend.jpa.entities.ObjetivoAcademico</class>
+	<class>com.bsodsoftware.merbackend.jpa.entities.Red</class>
+	<class>com.bsodsoftware.merbackend.jpa.entities.TareaMatematica</class>
+	<class>com.bsodsoftware.merbackend.jpa.entities.Usuario</class>
+	<properties>
+		<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" /> 
+		<property name="hibernate.hbm2ddl.auto" value="update" /> 
+		<property name="hibernate.format_sql" value="true" /> 
+		<property name="hibernate.show_sql" value="false" /> 
+		<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup" /> 
+	</properties>
+	</persistence-unit>
+</persistence>

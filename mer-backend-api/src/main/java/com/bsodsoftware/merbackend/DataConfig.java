@@ -21,11 +21,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories("com.bsodsoftware.merbackend.jpa.repository")
-@PropertySource("classpath:database.properties")
+@PropertySource("classpath:application.properties")
 public class DataConfig {
 	private final String PROPERTY_DRIVER = "driver";
 	private final String PROPERTY_URL = "url";
-	private final String PROPERTY_USERNAME = "user";
+	private final String PROPERTY_USERNAME = "username";
 	private final String PROPERTY_PASSWORD = "password";
 	private final String PROPERTY_SHOW_SQL = "hibernate.show_sql";
 	private final String PROPERTY_DIALECT = "hibernate.dialect";
