@@ -1,21 +1,21 @@
 package com.bsodsoftware.merbackend.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import com.bsodsoftware.merbackend.jpa.entities.Nivel;
-import com.bsodsoftware.merbackend.jpa.repository.NivelRepository;
+import com.bsodsoftware.merbackend.jpa.repository.NivelDao;
 import com.bsodsoftware.merbackend.services.to.EntidadGenericaDTO;
 
-@Service
+@Stateless
 public class NivelService {
 
-	@Autowired
-	private NivelRepository nivelRepository;
+	@Inject
+	private NivelDao nivelDao;
 	
 	public void guardarNivel(EntidadGenericaDTO nivelDto) {
 		Nivel nivel = new Nivel();
 		nivel.setNombre(nivelDto.getNombre());
-		nivelRepository.save(nivel);
+		nivelDao.save(nivel);
 	}
 }

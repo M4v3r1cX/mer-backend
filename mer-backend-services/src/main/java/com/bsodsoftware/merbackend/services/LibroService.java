@@ -1,20 +1,20 @@
 package com.bsodsoftware.merbackend.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import com.bsodsoftware.merbackend.jpa.entities.Libro;
-import com.bsodsoftware.merbackend.jpa.repository.LibroRepository;
+import com.bsodsoftware.merbackend.jpa.repository.LibroDao;
 import com.bsodsoftware.merbackend.services.to.EntidadGenericaDTO;
 
-@Service
+@Stateless
 public class LibroService {
 
-	@Autowired
-	LibroRepository libroRepository;
+	@Inject
+	LibroDao libroDao;
 	
-	public Libro save(Libro libro) {
-		return libroRepository.save(libro);
+	public void save(Libro libro) {
+		libroDao.save(libro);
 	}
 	
 	public void guardarLibro(EntidadGenericaDTO libroDto) {

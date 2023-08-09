@@ -2,36 +2,35 @@ package com.bsodsoftware.merbackend.services;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.bsodsoftware.merbackend.jpa.entities.Usuario;
-import com.bsodsoftware.merbackend.jpa.repository.UsuarioRepository;
+import com.bsodsoftware.merbackend.jpa.repository.UsuarioDao;
 import com.bsodsoftware.merbackend.services.to.UsuarioDTO;
 
-@Service
+@Stateless
 public class UsuarioService {
 
-	@Autowired
-	UsuarioRepository usuarioRepository;
+	@Inject
+	UsuarioDao usuarioDao;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	public Usuario save(Usuario entity) {
-		return usuarioRepository.save(entity);
+	public void save(Usuario entity) {
+		usuarioDao.save(entity);
 	}
 	
 	public Usuario findByEmail(String email) {
-		return usuarioRepository.findByEmail(email);
+		return usuarioDao.findByEmail(email);
 	}
 	
 	public void createUsuario(UsuarioDTO usuarioDto) {
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 		Usuario usuario = new Usuario();
 		usuario.setEmail(usuarioDto.getEmail());
 		usuario.setFechaCreacion(new Date());
-		usuario.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
+		usuario.setPassword(bcrypt.encode(usuarioDto.getPassword()));
 		usuario.setInstitucion(null);
 		usuario.setNombre(usuarioDto.getNombre());
 		usuario.setNombreUsuario(usuarioDto.getUsuario());
@@ -41,9 +40,10 @@ public class UsuarioService {
 	
 	public boolean login(String username, String passwd) throws Exception {
 		boolean ret = false;
-		Usuario usuario = usuarioRepository.findByEmail(username);
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+		Usuario usuario = usuarioDao.findByEmail(username);
 		if (usuario != null) {
-			if (passwordEncoder.matches(passwd, usuario.getPassword())) {
+			if (bcrypt.matches(passwd, usuario.getPassword())) {
 				ret = true;
 			} else {
 				throw new Exception ("Contraseña incorrecta.");
@@ -53,6 +53,4 @@ public class UsuarioService {
 		}
 		return ret;
 	}
-	
-	//https://www.digitalocean.com/community/tutorials/spring-data-jpa
 }
