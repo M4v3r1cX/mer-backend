@@ -24,14 +24,8 @@ public class Usuario implements Serializable {
 	@Column(name = "nombre")
 	private String nombre;
 	
-	@Column(name = "nombre_usuario")
-	private String nombreUsuario;
-	
 	@Column(name = "password")
 	private String password;
-	
-	@Column(name = "institucion")
-	private String institucion;
 	
 	@Column(name = "fecha_creacion")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -56,28 +50,12 @@ public class Usuario implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getNombreUsuario() {
-		return nombreUsuario;
-	}
-
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getInstitucion() {
-		return institucion;
-	}
-
-	public void setInstitucion(String institucion) {
-		this.institucion = institucion;
 	}
 
 	public Date getFechaCreacion() {
