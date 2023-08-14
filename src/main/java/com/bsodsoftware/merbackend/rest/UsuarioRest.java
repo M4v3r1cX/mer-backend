@@ -1,6 +1,7 @@
 package com.bsodsoftware.merbackend.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ public class UsuarioRest {
 	UsuarioService usuarioService;
 	
 	@GetMapping("/login")
+	@CrossOrigin
 	@ResponseBody
 	public ResponseDTO login(@RequestBody LoginDTO loginDto) {
 		ResponseDTO ret = new ResponseDTO();
@@ -37,6 +39,7 @@ public class UsuarioRest {
 	}
 	
 	@PostMapping("/register")
+	@CrossOrigin
 	@ResponseBody
 	public ResponseDTO register(@RequestBody RegisterDTO registerDto) {
 		ResponseDTO ret = new ResponseDTO();
