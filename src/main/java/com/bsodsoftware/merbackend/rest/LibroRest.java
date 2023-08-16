@@ -1,6 +1,7 @@
 package com.bsodsoftware.merbackend.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class LibroRest {
 	private LibroService libroService;
 	
 	@PostMapping("/save")
+	@CrossOrigin
 	@ResponseBody
 	public ResponseDTO guardarLibro(@RequestBody EntidadGenericaDTO libroDto) {
 		ResponseDTO ret = new ResponseDTO();
@@ -34,4 +36,6 @@ public class LibroRest {
 		
 		return ret;
 	}
+	
+	
 }

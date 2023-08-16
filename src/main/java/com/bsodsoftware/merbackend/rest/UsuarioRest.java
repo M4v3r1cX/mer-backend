@@ -21,7 +21,7 @@ public class UsuarioRest {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	@CrossOrigin
 	@ResponseBody
 	public ResponseDTO login(@RequestBody LoginDTO loginDto) {
