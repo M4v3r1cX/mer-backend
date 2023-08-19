@@ -1,11 +1,15 @@
 package com.bsodsoftware.merbackend.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bsodsoftware.merbackend.jpa.entities.Libro;
 import com.bsodsoftware.merbackend.jpa.repository.LibroRepository;
 import com.bsodsoftware.merbackend.services.to.EntidadGenericaDTO;
+import com.bsodsoftware.merbackend.services.to.EntidadGenericaResponseDTO;
 
 @Service
 public class LibroService {
@@ -22,5 +26,26 @@ public class LibroService {
 		libro.setDescripcion(libroDto.getDescripcion());
 		libro.setNombre(libroDto.getNombre());
 		save(libro);
+	}
+	
+	public List<EntidadGenericaResponseDTO> findLibros() {
+		List<Libro> libros = libroRepository.findAll();
+		List<EntidadGenericaResponseDTO> ret = null;
+		
+		if (libros != null && !libros.isEmpty()) {
+			ret = new ArrayList<EntidadGenericaResponseDTO>();
+			for(Libro l : libros) {
+				EntidadGenericaResponseDTO dto = new EntidadGenericaResponseDTO();
+				dto.setId(l.getId() + "");
+				dto.setNombre(l.getNombre());
+				ret.add(dto);
+			}
+		}
+		
+		return ret;
+	}
+	
+	public void deleteLibro(Long id) {
+		libroRepository.deleteById(id);
 	}
 }
