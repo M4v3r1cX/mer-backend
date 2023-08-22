@@ -48,4 +48,8 @@ public class LibroService {
 	public void deleteLibro(Long id) {
 		libroRepository.deleteById(id);
 	}
+	
+	public Libro findById(Long id) {
+		return libroRepository.getReferenceById(id);
+	}
 }

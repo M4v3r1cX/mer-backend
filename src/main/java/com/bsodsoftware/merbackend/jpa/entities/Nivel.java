@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+// esta no se usa
 @Entity
 @Table(name = "nivel")
 public class Nivel implements Serializable {

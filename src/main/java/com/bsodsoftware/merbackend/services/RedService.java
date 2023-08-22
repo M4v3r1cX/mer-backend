@@ -19,4 +19,8 @@ public class RedService {
 		red.setNombre(redDto.getNombre());
 		redRepository.save(red);
 	}
+	
+	public Red findById(Long id) {
+		return redRepository.getReferenceById(id);
+	}
 }
