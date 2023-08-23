@@ -21,6 +21,10 @@ public class LibroService {
 		return libroRepository.save(libro);
 	}
 	
+	public void save(List<Libro> libros) {
+		libroRepository.saveAllAndFlush(libros);
+	}
+	
 	public void guardarLibro(EntidadGenericaDTO libroDto) {
 		Libro libro = new Libro();
 		libro.setDescripcion(libroDto.getDescripcion());
@@ -49,7 +53,16 @@ public class LibroService {
 		libroRepository.deleteById(id);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public Libro findById(Long id) {
-		return libroRepository.getReferenceById(id);
+		return libroRepository.getOne(id);
+	}
+	
+	public List<Libro> findAll() {
+		return libroRepository.findAll();
+	}
+	
+	public long count() {
+		return libroRepository.count();
 	}
 }

@@ -10,10 +10,10 @@ public class ActividadMerDTO {
 	private String descripcionActividad;
 	private String imagenReferencia;
 	private String linkReferencia;
-	private Long idRed;
-	private Long idNivel;
-	private Long idLibro;
-	private Long idUsuarioCarga;
+	private String idRed;
+	private String idNivel;
+	private String idLibro;
+	private String idUsuarioCarga;
 	
 	public String getNombre() {
 		return nombre;
@@ -57,28 +57,29 @@ public class ActividadMerDTO {
 	public void setLinkReferencia(String linkReferencia) {
 		this.linkReferencia = linkReferencia;
 	}
-	public Long getIdRed() {
+	public String getIdRed() {
 		return idRed;
 	}
-	public void setIdRed(Long idRed) {
+	public void setIdRed(String idRed) {
 		this.idRed = idRed;
 	}
-	public Long getIdNivel() {
+	public String getIdNivel() {
 		return idNivel;
 	}
-	public void setIdNivel(Long idNivel) {
+	public void setIdNivel(String idNivel) {
 		this.idNivel = idNivel;
 	}
-	public Long getIdLibro() {
+	public String getIdLibro() {
 		return idLibro;
 	}
-	public void setIdLibro(Long idLibro) {
+	public void setIdLibro(String idLibro) {
 		this.idLibro = idLibro;
 	}
-	public Long getIdUsuarioCarga() {
+	public String getIdUsuarioCarga() {
 		return idUsuarioCarga;
 	}
-	public void setIdUsuarioCarga(Long idUsuarioCarga) {
+	public void setIdUsuarioCarga(String idUsuarioCarga) {
 		this.idUsuarioCarga = idUsuarioCarga;
 	}
+	
 }

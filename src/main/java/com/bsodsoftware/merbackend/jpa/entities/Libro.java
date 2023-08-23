@@ -27,6 +27,15 @@ public class Libro implements Serializable {
 	public Long getId() {
 		return id;
 	}
+	
+	public Libro() {
+		
+	}
+	
+	public Libro(String nombre, String descripcion) {
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+	}
 
 	public void setId(Long id) {
 		this.id = id;

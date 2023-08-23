@@ -23,6 +23,13 @@ public class Red implements Serializable {
 	
 	@Column(name = "descripcion")
 	private String descripcion;
+	
+	public Red() {}
+	
+	public Red(String nombre, String descripcion) {
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+	}
 
 	public Long getId() {
 		return id;

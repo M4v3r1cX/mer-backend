@@ -12,6 +12,8 @@ import com.bsodsoftware.merbackend.jpa.entities.Red;
 import com.bsodsoftware.merbackend.jpa.repository.ActividadMerRepository;
 import com.bsodsoftware.merbackend.services.to.ActividadMerDTO;
 import com.bsodsoftware.merbackend.services.to.ActividadMerListaDto;
+import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
+import com.bsodsoftware.merbackend.services.to.LibroRedResponse;
 
 @Service
 public class ActividadMerService {
@@ -32,15 +34,16 @@ public class ActividadMerService {
 	public void guardarActividad(ActividadMerDTO merdto, Long idUsuario) {
 		ActividadMer amer = new ActividadMer();
 		amer.setDescripcionActividad(merdto.getDescripcionActividad());
-		amer.setIdLibro(merdto.getIdLibro());
-		amer.setIdNivel(merdto.getIdNivel());
-		amer.setIdRed(merdto.getIdRed());
+		amer.setIdLibro(Long.valueOf(merdto.getIdLibro()));
+		amer.setIdNivel(Long.valueOf(merdto.getIdNivel()));
+		amer.setIdRed(Long.valueOf(merdto.getIdRed()));
 		amer.setIdUsuarioCarga(idUsuario);
 		amer.setImagenReferencia(merdto.getImagenReferencia());
 		amer.setLinkReferencia(merdto.getLinkReferencia());
 		amer.setTextoCajaOaCapa2(merdto.getTextoCajaOaCapa2());
 		amer.setTextoCajaTmCapa2(merdto.getTextoCajaTmCapa2());
 		amer.setUbicacionEnLibro(merdto.getUbicacionEnLibro());
+		amer.setNombre(merdto.getNombre());
 		save(amer);
 	}
 	
@@ -69,6 +72,41 @@ public class ActividadMerService {
 				ret.add(ldto);
 			}
 		}
+		
+		return ret;
+	}
+	
+	public LibroRedResponse getLibrosYRedes() {
+		LibroRedResponse ret = null;
+		List<LibroRedDTO> reds = null;
+		List<LibroRedDTO> libs = null;
+		List<Red> redes = redService.findAll();
+		if (redes != null && !redes.isEmpty()) {
+			reds = new ArrayList<LibroRedDTO>();
+			for (Red r : redes) {
+				LibroRedDTO l = new LibroRedDTO();
+				l.setId(r.getId());
+				l.setNombre(r.getNombre());
+				reds.add(l);
+			}
+		}
+		List<Libro> libros = libroService.findAll();
+		if (libros != null && !libros.isEmpty()) {
+			libs = new ArrayList<LibroRedDTO>();
+			for (Libro lib : libros) {
+				LibroRedDTO l = new LibroRedDTO();
+				l.setId(lib.getId());
+				l.setNombre(lib.getNombre());
+				libs.add(l);
+			}
+		}
+		
+		if (reds != null || libs != null) {
+			ret = new LibroRedResponse();
+			ret.setLibros(libs);
+			ret.setRedes(reds);
+		}
+		
 		
 		return ret;
 	}

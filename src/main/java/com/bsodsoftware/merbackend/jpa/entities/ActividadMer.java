@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -36,7 +37,8 @@ public class ActividadMer implements Serializable  {
 	@Column(name = "descripcion_actividad")
 	private String descripcionActividad;
 	
-	@Column(name = "imagen_referencia")
+	@Lob
+	@Column(name = "imagen_referencia", length=65535)
 	private String imagenReferencia;
 	
 	@Column(name = "link_referencia")

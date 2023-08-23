@@ -17,6 +17,7 @@ import com.bsodsoftware.merbackend.services.ActividadMerService;
 import com.bsodsoftware.merbackend.services.to.ActividadMerDTO;
 import com.bsodsoftware.merbackend.services.to.ActividadMerListaDto;
 import com.bsodsoftware.merbackend.services.to.ActividadMerResponse;
+import com.bsodsoftware.merbackend.services.to.LibroRedResponse;
 import com.bsodsoftware.merbackend.services.to.ResponseDTO;
 
 @RestController
@@ -74,6 +75,16 @@ public class ActividadMerRest {
 			ret.setCodigo(500);
 			ret.setComentario(ex.getLocalizedMessage());
 		}
+		
+		return ret;
+	}
+	
+	@GetMapping("getLibrosYRedes")
+	@CrossOrigin
+	@ResponseBody
+	public LibroRedResponse getLibrosYRedes() {
+		LibroRedResponse ret = actividadMerService.getLibrosYRedes();
+		
 		
 		return ret;
 	}
