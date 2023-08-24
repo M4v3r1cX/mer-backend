@@ -88,4 +88,12 @@ public class ActividadMerRest {
 		
 		return ret;
 	}
+	
+	@GetMapping("getActividad")
+	@CrossOrigin
+	@ResponseBody
+	public ActividadMerDTO getActividad(@RequestParam Long id) {
+		ActividadMerDTO ret = actividadMerService.getActividad(id);
+		return ret;
+	}
 }

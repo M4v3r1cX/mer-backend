@@ -32,7 +32,12 @@ public class ActividadMerService {
 	}
 	
 	public void guardarActividad(ActividadMerDTO merdto, Long idUsuario) {
-		ActividadMer amer = new ActividadMer();
+		ActividadMer amer = null;
+		if (merdto.getId() != null && !merdto.getId().isEmpty()) {
+			amer = actividadMerRepository.getReferenceById(Long.valueOf(merdto.getId()));
+		} else {
+			amer= new ActividadMer();
+		}
 		amer.setDescripcionActividad(merdto.getDescripcionActividad());
 		amer.setIdLibro(Long.valueOf(merdto.getIdLibro()));
 		amer.setIdNivel(Long.valueOf(merdto.getIdNivel()));
@@ -108,6 +113,25 @@ public class ActividadMerService {
 		}
 		
 		
+		return ret;
+	}
+
+	public ActividadMerDTO getActividad(Long id) {
+		ActividadMerDTO ret = null;
+		ActividadMer amer = actividadMerRepository.getReferenceById(id);
+		if (amer != null) {
+			ret = new ActividadMerDTO();
+			ret.setDescripcionActividad(amer.getDescripcionActividad());
+			ret.setIdLibro(amer.getIdLibro()  + "");
+			ret.setIdNivel(amer.getIdNivel() + "");
+			ret.setIdRed(amer.getIdRed() + "");
+			ret.setIdUsuarioCarga(amer.getIdUsuarioCarga() + "");
+			ret.setLinkReferencia(amer.getLinkReferencia());
+			ret.setNombre(amer.getNombre());
+			ret.setTextoCajaOaCapa2(amer.getTextoCajaOaCapa2());
+			ret.setTextoCajaTmCapa2(amer.getTextoCajaTmCapa2());
+			ret.setUbicacionEnLibro(amer.getUbicacionEnLibro());
+			ret.setId(amer.getId() + "");}
 		return ret;
 	}
 }

@@ -14,6 +14,7 @@ public class ActividadMerDTO {
 	private String idNivel;
 	private String idLibro;
 	private String idUsuarioCarga;
+	private String id;
 	
 	public String getNombre() {
 		return nombre;
@@ -81,5 +82,10 @@ public class ActividadMerDTO {
 	public void setIdUsuarioCarga(String idUsuarioCarga) {
 		this.idUsuarioCarga = idUsuarioCarga;
 	}
-	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 }
