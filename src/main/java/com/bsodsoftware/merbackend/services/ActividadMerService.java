@@ -112,7 +112,6 @@ public class ActividadMerService {
 			ret.setRedes(reds);
 		}
 		
-		
 		return ret;
 	}
 
@@ -131,7 +130,8 @@ public class ActividadMerService {
 			ret.setTextoCajaOaCapa2(amer.getTextoCajaOaCapa2());
 			ret.setTextoCajaTmCapa2(amer.getTextoCajaTmCapa2());
 			ret.setUbicacionEnLibro(amer.getUbicacionEnLibro());
-			ret.setId(amer.getId() + "");}
+			ret.setId(amer.getId() + "");
+		}
 		return ret;
 	}
 }

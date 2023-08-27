@@ -7,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,13 +24,14 @@ public class ObjetivoAcademico implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_nivel")
-	private Nivel nivel;
+	@Column(name = "id_nivel")
+	private Long idNivel;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_red")
-	private Red red;
+	@Column(name = "id_red")
+	private Long idRed;
+	
+	@Column(name = "id_usuario")
+	private Long idUsuario;
 
 	public Long getId() {
 		return id;
@@ -58,19 +57,27 @@ public class ObjetivoAcademico implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Nivel getNivel() {
-		return nivel;
+	public Long getIdNivel() {
+		return idNivel;
 	}
 
-	public void setNivel(Nivel nivel) {
-		this.nivel = nivel;
+	public void setIdNivel(Long idNivel) {
+		this.idNivel = idNivel;
 	}
 
-	public Red getRed() {
-		return red;
+	public Long getIdRed() {
+		return idRed;
 	}
 
-	public void setRed(Red red) {
-		this.red = red;
+	public void setIdRed(Long idRed) {
+		this.idRed = idRed;
+	}
+
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 }
