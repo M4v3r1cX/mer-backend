@@ -17,6 +17,7 @@ import com.bsodsoftware.merbackend.services.ObjetivoAcademicoService;
 import com.bsodsoftware.merbackend.services.to.LibroRedResponse;
 import com.bsodsoftware.merbackend.services.to.OAResponse;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
+import com.bsodsoftware.merbackend.services.to.RedResponse;
 import com.bsodsoftware.merbackend.services.to.ResponseDTO;
 
 @RestController
@@ -25,9 +26,6 @@ public class OARest {
 	
 	@Autowired
 	private ObjetivoAcademicoService oaService;
-	
-	@Autowired
-	private ActividadMerService actividadMerService;
 	
 	@PostMapping("/save")
 	@CrossOrigin
@@ -81,12 +79,11 @@ public class OARest {
 		return ret;
 	}
 	
-	@GetMapping("getLibrosYRedes")
+	@GetMapping("getRedes")
 	@CrossOrigin
 	@ResponseBody
-	public LibroRedResponse getLibrosYRedes() {
-		LibroRedResponse ret = actividadMerService.getLibrosYRedes();
-		
+	public RedResponse getRedes() {
+		RedResponse ret = oaService.getRedes();
 		
 		return ret;
 	}

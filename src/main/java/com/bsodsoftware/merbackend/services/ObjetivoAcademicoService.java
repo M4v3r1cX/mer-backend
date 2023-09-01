@@ -6,12 +6,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bsodsoftware.merbackend.jpa.entities.Libro;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAcademico;
+import com.bsodsoftware.merbackend.jpa.entities.Red;
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAcademicoRepository;
+import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
+import com.bsodsoftware.merbackend.services.to.LibroRedResponse;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
+import com.bsodsoftware.merbackend.services.to.RedResponse;
 
 @Service
 public class ObjetivoAcademicoService {
+	
+	@Autowired
+	private RedService redService;
 
 	@Autowired
 	private ObjetivoAcademicoRepository oaRepository;
@@ -69,6 +77,28 @@ public class ObjetivoAcademicoService {
 			ret.setIdRed(oa.getIdRed() + "");
 			ret.setNombre(oa.getNombre());
 		}
+		return ret;
+	}
+	
+	public RedResponse getRedes() {
+		RedResponse ret = null;
+		List<LibroRedDTO> reds = null;
+		List<Red> redes = redService.findAll();
+		if (redes != null && !redes.isEmpty()) {
+			reds = new ArrayList<LibroRedDTO>();
+			for (Red r : redes) {
+				LibroRedDTO l = new LibroRedDTO();
+				l.setId(r.getId());
+				l.setNombre(r.getNombre());
+				reds.add(l);
+			}
+		}
+		
+		if (reds != null) {
+			ret = new RedResponse();
+			ret.setRedes(reds);
+		}
+		
 		return ret;
 	}
 }
