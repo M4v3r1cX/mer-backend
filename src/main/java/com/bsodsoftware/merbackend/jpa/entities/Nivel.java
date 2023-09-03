@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-// esta no se usa
 @Entity
 @Table(name = "nivel")
 public class Nivel implements Serializable {
@@ -21,6 +20,13 @@ public class Nivel implements Serializable {
 	
 	@Column(name = "nombre")
 	private String nombre;
+	
+	public Nivel() {}
+	
+	public Nivel(Long id, String nombre) {
+		this.id = id;
+		this.nombre = nombre;
+	}
 
 	public Long getId() {
 		return id;

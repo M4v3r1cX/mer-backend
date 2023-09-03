@@ -3,28 +3,11 @@ package com.bsodsoftware.merbackend.services.to;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OaDTO {
-
-	private String id;
-	private String nombre;
+public class OaHijoDTO {
 	private String descripcion;
-	private Boolean prioridad;
 	private List<String> redes;
 	private List<String> niveles;
-	private List<OaHijoDTO> hijos;
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -42,18 +25,6 @@ public class OaDTO {
 	}
 	public void setNiveles(List<String> niveles) {
 		this.niveles = niveles;
-	}
-	public List<OaHijoDTO> getHijos() {
-		return hijos;
-	}
-	public void setHijos(List<OaHijoDTO> hijos) {
-		this.hijos = hijos;
-	}
-	public Boolean getPrioridad() {
-		return prioridad;
-	}
-	public void setPrioridad(Boolean prioridad) {
-		this.prioridad = prioridad;
 	}
 	public void addRed(String r) {
 		if (this.getRedes() == null) {

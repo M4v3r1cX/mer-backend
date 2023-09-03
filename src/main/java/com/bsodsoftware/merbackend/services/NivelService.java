@@ -1,5 +1,7 @@
 package com.bsodsoftware.merbackend.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,17 @@ public class NivelService {
 		Nivel nivel = new Nivel();
 		nivel.setNombre(nivelDto.getNombre());
 		nivelRepository.save(nivel);
+	}
+	
+	public long count() {
+		return nivelRepository.count();
+	}
+	
+	public void saveAll(List<Nivel> entities) {
+		nivelRepository.saveAllAndFlush(entities);
+	}
+	
+	public Nivel findById(Long id) {
+		return nivelRepository.getReferenceById(id);
 	}
 }

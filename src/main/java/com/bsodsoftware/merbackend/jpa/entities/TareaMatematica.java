@@ -25,7 +25,7 @@ public class TareaMatematica implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_objetivo_academico")
-	private ObjetivoAcademico objetivoAcademico;
+	private ObjetivoAprendizaje objetivoAcademico;
 
 	public Long getId() {
 		return id;
@@ -43,11 +43,11 @@ public class TareaMatematica implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public ObjetivoAcademico getObjetivoAcademico() {
+	public ObjetivoAprendizaje getObjetivoAcademico() {
 		return objetivoAcademico;
 	}
 
-	public void setObjetivoAcademico(ObjetivoAcademico objetivoAcademico) {
+	public void setObjetivoAcademico(ObjetivoAprendizaje objetivoAcademico) {
 		this.objetivoAcademico = objetivoAcademico;
 	}
 }

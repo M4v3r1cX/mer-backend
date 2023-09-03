@@ -9,6 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import com.bsodsoftware.merbackend.jpa.entities.Libro;
+import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.Red;
 
 import jakarta.annotation.PostConstruct;
@@ -21,6 +22,9 @@ public class InitService {
 	
 	@Autowired
 	RedService redService;
+	
+	@Autowired
+	NivelService nivelService;
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void initData() {
@@ -45,6 +49,18 @@ public class InitService {
 			redes.add(new Red("Geometría",""));
 			redes.add(new Red("Datos y Probabilidades",""));
 			redService.saveAll(redes);
+		}
+		
+		long count3 = nivelService.count();
+		if (count3 == 0) {
+			List<Nivel> niveles = new ArrayList<Nivel>();
+			niveles.add(new Nivel(1L, "1"));
+			niveles.add(new Nivel(2L, "2"));
+			niveles.add(new Nivel(3L, "3"));
+			niveles.add(new Nivel(4L, "4"));
+			niveles.add(new Nivel(5L, "5"));
+			niveles.add(new Nivel(6L, "6"));
+			nivelService.saveAll(niveles);
 		}
 	}
 }
