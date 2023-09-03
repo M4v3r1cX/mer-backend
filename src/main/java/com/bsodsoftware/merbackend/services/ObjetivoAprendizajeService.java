@@ -11,6 +11,7 @@ import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
 import com.bsodsoftware.merbackend.jpa.entities.Red;
+import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeHijoRepository;
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeRepository;
 import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
 import com.bsodsoftware.merbackend.services.to.LibroRedResponse;
@@ -30,6 +31,9 @@ public class ObjetivoAprendizajeService {
 	@Autowired
 	private ObjetivoAprendizajeRepository oaRepository;
 	
+	@Autowired
+	private ObjetivoAprendizajeHijoRepository oaHijoRepository;
+	
 	private void save(ObjetivoAprendizaje entity) {
 		oaRepository.saveAndFlush(entity);
 	}
@@ -43,7 +47,7 @@ public class ObjetivoAprendizajeService {
 		}
 		oa.setDescripcion(oadto.getDescripcion());
 		oa.setIdUsuario(idUsuario);
-		oa.setNombre(oadto.getNombre());
+		oa.setNombre(oadto.getCodigo());
 		oa.setPriorizado(oadto.getPrioridad());
 		for (String r : oadto.getRedes()) {
 			Red red = redService.findById(Long.valueOf(r));
@@ -79,6 +83,7 @@ public class ObjetivoAprendizajeService {
 			}
 		}
 		save(oa);
+		oaHijoRepository.saveAll(oa.getHijos());
 	}
 	
 	public void delete(Long id) {
@@ -99,7 +104,7 @@ public class ObjetivoAprendizajeService {
 				for (Nivel n : oa.getNiveles()) {
 					oadto.addNivel(n.getNombre());
 				}
-				oadto.setNombre(oa.getNombre());
+				oadto.setCodigo(oa.getNombre());
 				oadto.setDescripcion(oa.getDescripcion());
 				oadto.setPrioridad(oa.isPriorizado());
 				ret.add(oadto);
@@ -118,7 +123,7 @@ public class ObjetivoAprendizajeService {
 			ret.setId(oa.getId() + "");
 			//ret.setIdNivel(oa.getIdNivel() + "");
 			//ret.setIdRed(oa.getIdRed() + "");
-			ret.setNombre(oa.getNombre());
+			ret.setCodigo(oa.getNombre());
 		}
 		return ret;
 	}
