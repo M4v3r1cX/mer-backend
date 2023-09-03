@@ -17,6 +17,7 @@ import com.bsodsoftware.merbackend.services.ObjetivoAprendizajeService;
 import com.bsodsoftware.merbackend.services.to.LibroRedResponse;
 import com.bsodsoftware.merbackend.services.to.OAResponse;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
+import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
 import com.bsodsoftware.merbackend.services.to.RedResponse;
 import com.bsodsoftware.merbackend.services.to.ResponseDTO;
 
@@ -93,6 +94,14 @@ public class OARest {
 	@ResponseBody
 	public OaDTO getOa(@RequestParam Long id) {
 		OaDTO ret = oaService.getOa(id);
+		return ret;
+	}
+	
+	@GetMapping("getHijos")
+	@CrossOrigin
+	@ResponseBody
+	public List<OaHijoDTO> getHijos(@RequestParam Long id) {
+		List<OaHijoDTO> ret = oaService.getHijos(id);
 		return ret;
 	}
 }

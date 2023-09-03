@@ -14,7 +14,6 @@ import com.bsodsoftware.merbackend.jpa.entities.Red;
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeHijoRepository;
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeRepository;
 import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
-import com.bsodsoftware.merbackend.services.to.LibroRedResponse;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
 import com.bsodsoftware.merbackend.services.to.RedResponse;
@@ -125,6 +124,28 @@ public class ObjetivoAprendizajeService {
 			//ret.setIdRed(oa.getIdRed() + "");
 			ret.setCodigo(oa.getNombre());
 		}
+		return ret;
+	}
+	
+	public List<OaHijoDTO> getHijos(Long id) {
+		List<OaHijoDTO> ret = null;
+		
+		ObjetivoAprendizaje oa = oaRepository.getReferenceById(id);
+		if (oa != null && oa.getHijos() != null && !oa.getHijos().isEmpty()) {
+			ret = new ArrayList<OaHijoDTO>();
+			for (ObjetivoAprendizajeHijo oahijo : oa.getHijos()) {
+				OaHijoDTO oadto = new OaHijoDTO();
+				oadto.setDescripcion(oahijo.getDescripcion());
+				for (Red r : oahijo.getRedes()) {
+					oadto.addRed(r.getNombre());
+				}
+				for (Nivel n : oahijo.getNiveles()) {
+					oadto.addNivel(n.getNombre());
+				}
+				ret.add(oadto);
+			}
+		}
+		
 		return ret;
 	}
 	
