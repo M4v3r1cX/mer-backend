@@ -86,6 +86,14 @@ public class ObjetivoAprendizajeService {
 	}
 	
 	public void delete(Long id) {
+		ObjetivoAprendizaje oa = oaRepository.getReferenceById(id);
+		if (oa != null) {
+			if (oa.getHijos() != null && !oa.getHijos().isEmpty()) {
+				for (ObjetivoAprendizajeHijo oahijo : oa.getHijos()) {
+					oaHijoRepository.delete(oahijo);
+				}
+			}
+		}
 		oaRepository.deleteById(id);
 	}
 	
@@ -125,6 +133,10 @@ public class ObjetivoAprendizajeService {
 			ret.setCodigo(oa.getNombre());
 		}
 		return ret;
+	}
+	
+	public ObjetivoAprendizaje findOaById(Long id) {
+		return oaRepository.getReferenceById(id);
 	}
 	
 	public List<OaHijoDTO> getHijos(Long id) {
