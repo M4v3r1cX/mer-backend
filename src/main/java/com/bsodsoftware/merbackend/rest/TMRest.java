@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bsodsoftware.merbackend.services.ObjetivoAprendizajeService;
 import com.bsodsoftware.merbackend.services.TareaMatematicaService;
+import com.bsodsoftware.merbackend.services.to.OaTmDto;
 import com.bsodsoftware.merbackend.services.to.ResponseDTO;
 import com.bsodsoftware.merbackend.services.to.TMDTO;
 
@@ -21,6 +24,9 @@ public class TMRest {
 
 	@Autowired
 	private TareaMatematicaService tmService;
+	
+	@Autowired
+	private ObjetivoAprendizajeService oaService;
 	
 	@PostMapping("/save")
 	@CrossOrigin
@@ -62,5 +68,12 @@ public class TMRest {
 		}
 		
 		return ret;
+	}
+	
+	@GetMapping("getAllOaTms")
+	@CrossOrigin
+	@ResponseBody
+	public List<OaTmDto> getOaTms() {
+		return oaService.getOasTms();
 	}
 }

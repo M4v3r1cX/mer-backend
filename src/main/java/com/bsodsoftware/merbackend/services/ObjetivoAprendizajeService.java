@@ -16,6 +16,7 @@ import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeRepository;
 import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
+import com.bsodsoftware.merbackend.services.to.OaTmDto;
 import com.bsodsoftware.merbackend.services.to.RedResponse;
 
 @Service
@@ -118,6 +119,22 @@ public class ObjetivoAprendizajeService {
 			}
 		}
 		
+		return ret;
+	}
+	
+	public List<OaTmDto> getOasTms() {
+		List<OaTmDto> ret = null;
+		List<ObjetivoAprendizaje> oas = oaRepository.findAll();
+		if (oas != null && !oas.isEmpty()) {
+			ret = new ArrayList<OaTmDto>();
+			for (ObjetivoAprendizaje oa : oas) {
+				OaTmDto otd = new OaTmDto();
+				otd.setId(oa.getId() + "");
+				otd.setCodigo(oa.getNombre());
+				otd.setDescripcion(oa.getDescripcion());
+				ret.add(otd);
+			}
+		}
 		return ret;
 	}
 	
