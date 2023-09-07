@@ -76,4 +76,11 @@ public class TMRest {
 	public List<OaTmDto> getOaTms() {
 		return oaService.getOasTms();
 	}
+	
+	@GetMapping("getTm")
+	@CrossOrigin
+	@ResponseBody
+	public TMDTO getTm(Long id) {
+		return tmService.getTm(id);
+	}
 }

@@ -2,6 +2,7 @@ package com.bsodsoftware.merbackend.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,13 @@ public class TareaMatematicaService {
 	@Autowired
 	private ObjetivoAprendizajeService oaService;
 	
-	private void save(TareaMatematica tm) {
-		tmRepository.saveAndFlush(tm);
+	private TareaMatematica save(TareaMatematica tm) {
+		try {
+			return tmRepository.saveAndFlush(tm);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return tm;
+		}
 	}
 	
 	public void guardarTm(TMDTO tmDto, Long idUsuario) {
@@ -33,11 +39,14 @@ public class TareaMatematicaService {
 		}
 		tm.setDescripcion(tmDto.getDescripcion());
 		tm.setIdUsuario(idUsuario);
+		save(tm);
 		ObjetivoAprendizaje oa = oaService.findOaById(Long.valueOf(tmDto.getIdOa()));
 		if (oa != null) {
+			oa.addTm(tm);
+			oaService.save(oa);
 			tm.setObjetivoAcademico(oa);
+			save(tm);
 		}
-		save(tm);
 	}
 	
 	public void delete(Long id) {
@@ -58,6 +67,18 @@ public class TareaMatematicaService {
 				tmdto.setCodigoOa(oa.getNombre());
 				ret.add(tmdto);
 			}
+		}
+		return ret;
+	}
+	
+	public TMDTO getTm(Long idTM) {
+		TMDTO ret = null;
+		Optional<TareaMatematica> ot = tmRepository.findById(idTM);
+		if (ot.get() != null) {
+			ret = new TMDTO();
+			ret.setId(ot.get().getId() + "");
+			ret.setDescripcion(ot.get().getDescripcion());
+			ret.setIdOa(ot.get().getObjetivoAcademico().getId() + "");
 		}
 		return ret;
 	}

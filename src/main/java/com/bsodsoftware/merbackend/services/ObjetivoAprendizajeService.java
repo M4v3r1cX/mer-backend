@@ -2,6 +2,7 @@ package com.bsodsoftware.merbackend.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class ObjetivoAprendizajeService {
 	@Autowired
 	private ObjetivoAprendizajeHijoRepository oaHijoRepository;
 	
-	private void save(ObjetivoAprendizaje entity) {
+	public void save(ObjetivoAprendizaje entity) {
 		oaRepository.saveAndFlush(entity);
 	}
 	
@@ -153,7 +154,14 @@ public class ObjetivoAprendizajeService {
 	}
 	
 	public ObjetivoAprendizaje findOaById(Long id) {
-		return oaRepository.getReferenceById(id);
+		ObjetivoAprendizaje oa = null;
+		try {
+			Optional<ObjetivoAprendizaje> op = oaRepository.findById(id);
+			oa = op.get();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return oa;
 	}
 	
 	public List<OaHijoDTO> getHijos(Long id) {

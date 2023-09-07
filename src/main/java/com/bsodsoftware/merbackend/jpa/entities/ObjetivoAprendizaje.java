@@ -6,6 +6,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,8 +51,11 @@ public class ObjetivoAprendizaje implements Serializable {
 	@Column(name = "id_usuario")
 	private Long idUsuario;
 	
-	@OneToMany(mappedBy = "objetivoAprendizaje")
+	@OneToMany(mappedBy = "objetivoAprendizaje", fetch = FetchType.LAZY)
 	private List<ObjetivoAprendizajeHijo> hijos;
+	
+	@OneToMany(mappedBy = "objetivoAcademico", fetch = FetchType.LAZY)
+	private List<TareaMatematica> tareasMatematicas;
 
 	public Long getId() {
 		return id;
@@ -136,5 +140,20 @@ public class ObjetivoAprendizaje implements Serializable {
 			this.setHijos(new ArrayList<ObjetivoAprendizajeHijo>());
 		}
 		this.getHijos().add(hijo);
+	}
+
+	public List<TareaMatematica> getTareasMatematicas() {
+		return tareasMatematicas;
+	}
+
+	public void setTareasMatematicas(List<TareaMatematica> tareasMatematicas) {
+		this.tareasMatematicas = tareasMatematicas;
+	}
+	
+	public void addTm(TareaMatematica tm) {
+		if (this.getTareasMatematicas() == null) {
+			this.setTareasMatematicas(new ArrayList<TareaMatematica>());
+		}
+		this.getTareasMatematicas().add(tm);
 	}
 }
