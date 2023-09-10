@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bsodsoftware.merbackend.jpa.entities.ActividadMer;
 import com.bsodsoftware.merbackend.services.ActividadMerService;
 import com.bsodsoftware.merbackend.services.to.ActividadMerDTO;
 import com.bsodsoftware.merbackend.services.to.ActividadMerListaDto;
 import com.bsodsoftware.merbackend.services.to.ActividadMerResponse;
 import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
-import com.bsodsoftware.merbackend.services.to.LibroRedResponse;
 import com.bsodsoftware.merbackend.services.to.ResponseDTO;
 
 @RestController

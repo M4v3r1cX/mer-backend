@@ -2,8 +2,6 @@ package com.bsodsoftware.merbackend.services.to;
 
 import java.util.List;
 
-import com.bsodsoftware.merbackend.jpa.entities.ActividadMer;
-
 public class ActividadMerResponse extends ResponseDTO {
 	private List<ActividadMerListaDto> actividades;
 

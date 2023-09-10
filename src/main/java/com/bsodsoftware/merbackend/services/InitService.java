@@ -12,8 +12,6 @@ import com.bsodsoftware.merbackend.jpa.entities.Libro;
 import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.Red;
 
-import jakarta.annotation.PostConstruct;
-
 @Service
 public class InitService {
 	

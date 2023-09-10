@@ -2,7 +2,6 @@ package com.bsodsoftware.merbackend.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +26,13 @@ public class UsuarioRest {
 	public ResponseDTO login(@RequestBody LoginDTO loginDto) {
 		ResponseDTO ret = new ResponseDTO();
 		try {
-			if(usuarioService.login(loginDto.getUsuario(), loginDto.getPassword())) {
+			String token = usuarioService.login(loginDto.getUsuario(), loginDto.getPassword());
+			if(token != null && !token.isEmpty()) {
 				ret.setCodigo(200);
+				ret.setComentario(token);
+			} else {
+				ret.setCodigo(401);
+				ret.setComentario("Usuario no encontrado o credenciales incorrectas.");
 			}
 		} catch (Exception ex) {
 			ret.setCodigo(500);
