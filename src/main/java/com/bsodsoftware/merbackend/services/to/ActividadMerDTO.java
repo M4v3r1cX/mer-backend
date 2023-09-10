@@ -4,35 +4,20 @@ package com.bsodsoftware.merbackend.services.to;
 public class ActividadMerDTO {
 
 	private String nombre;
-	private String textoCajaOaCapa2;
-	private String textoCajaTmCapa2;
 	private String ubicacionEnLibro;
 	private String descripcionActividad;
 	private String imagenReferencia;
 	private String linkReferencia;
-	private String idRed;
-	private String idNivel;
 	private String idLibro;
 	private String idUsuarioCarga;
 	private String id;
+	private String idTm;
 	
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	public String getTextoCajaOaCapa2() {
-		return textoCajaOaCapa2;
-	}
-	public void setTextoCajaOaCapa2(String textoCajaOaCapa2) {
-		this.textoCajaOaCapa2 = textoCajaOaCapa2;
-	}
-	public String getTextoCajaTmCapa2() {
-		return textoCajaTmCapa2;
-	}
-	public void setTextoCajaTmCapa2(String textoCajaTmCapa2) {
-		this.textoCajaTmCapa2 = textoCajaTmCapa2;
 	}
 	public String getUbicacionEnLibro() {
 		return ubicacionEnLibro;
@@ -58,18 +43,6 @@ public class ActividadMerDTO {
 	public void setLinkReferencia(String linkReferencia) {
 		this.linkReferencia = linkReferencia;
 	}
-	public String getIdRed() {
-		return idRed;
-	}
-	public void setIdRed(String idRed) {
-		this.idRed = idRed;
-	}
-	public String getIdNivel() {
-		return idNivel;
-	}
-	public void setIdNivel(String idNivel) {
-		this.idNivel = idNivel;
-	}
 	public String getIdLibro() {
 		return idLibro;
 	}
@@ -87,5 +60,11 @@ public class ActividadMerDTO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getIdTm() {
+		return idTm;
+	}
+	public void setIdTm(String idTm) {
+		this.idTm = idTm;
 	}
 }

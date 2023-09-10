@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -25,12 +27,6 @@ public class ActividadMer implements Serializable  {
 	@Column(name = "nombre")
 	private String nombre;
 	
-	@Column(name = "texto_caja_oa_capa_2")
-	private String textoCajaOaCapa2;
-	
-	@Column(name = "texto_caja_tm_capa_2")
-	private String textoCajaTmCapa2;
-	
 	@Column(name = "ubicacion_en_libro")
 	private String ubicacionEnLibro;
 	
@@ -44,15 +40,6 @@ public class ActividadMer implements Serializable  {
 	@Column(name = "link_referencia")
 	private String linkReferencia;
 	
-	@Column(name = "id_red")
-	private Long idRed;
-	
-	@Column(name = "id_nivel")
-	private Long idNivel;
-	
-	@Column(name = "id_libro")
-	private Long idLibro;
-	
 	@Column(name = "id_usuario_carga")
 	private Long idUsuarioCarga;
 	
@@ -64,6 +51,14 @@ public class ActividadMer implements Serializable  {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaHoraModificacion;
 
+	@ManyToOne
+	@JoinColumn(name = "id_libro")
+	private Libro libro;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_tarea_matematica")
+	private TareaMatematica tareaMatematica;
+
 	public Long getId() {
 		return id;
 	}
@@ -71,45 +66,13 @@ public class ActividadMer implements Serializable  {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public Date getFechaHoraCreacion() {
-		return fechaHoraCreacion;
-	}
-
-	public void setFechaHoraCreacion(Date fechaHoraCreacion) {
-		this.fechaHoraCreacion = fechaHoraCreacion;
-	}
-
-	public Date getFechaHoraModificacion() {
-		return fechaHoraModificacion;
-	}
-
-	public void setFechaHoraModificacion(Date fechaHoraModificacion) {
-		this.fechaHoraModificacion = fechaHoraModificacion;
-	}
-
-	public String getTextoCajaOaCapa2() {
-		return textoCajaOaCapa2;
-	}
-
-	public void setTextoCajaOaCapa2(String textoCajaOaCapa2) {
-		this.textoCajaOaCapa2 = textoCajaOaCapa2;
-	}
-
-	public String getTextoCajaTmCapa2() {
-		return textoCajaTmCapa2;
-	}
-
-	public void setTextoCajaTmCapa2(String textoCajaTmCapa2) {
-		this.textoCajaTmCapa2 = textoCajaTmCapa2;
 	}
 
 	public String getUbicacionEnLibro() {
@@ -144,35 +107,43 @@ public class ActividadMer implements Serializable  {
 		this.linkReferencia = linkReferencia;
 	}
 
-	public Long getIdRed() {
-		return idRed;
-	}
-
-	public void setIdRed(Long idRed) {
-		this.idRed = idRed;
-	}
-
-	public Long getIdNivel() {
-		return idNivel;
-	}
-
-	public void setIdNivel(Long idNivel) {
-		this.idNivel = idNivel;
-	}
-
-	public Long getIdLibro() {
-		return idLibro;
-	}
-
-	public void setIdLibro(Long idLibro) {
-		this.idLibro = idLibro;
-	}
-
 	public Long getIdUsuarioCarga() {
 		return idUsuarioCarga;
 	}
 
 	public void setIdUsuarioCarga(Long idUsuarioCarga) {
 		this.idUsuarioCarga = idUsuarioCarga;
+	}
+
+	public Date getFechaHoraCreacion() {
+		return fechaHoraCreacion;
+	}
+
+	public void setFechaHoraCreacion(Date fechaHoraCreacion) {
+		this.fechaHoraCreacion = fechaHoraCreacion;
+	}
+
+	public Date getFechaHoraModificacion() {
+		return fechaHoraModificacion;
+	}
+
+	public void setFechaHoraModificacion(Date fechaHoraModificacion) {
+		this.fechaHoraModificacion = fechaHoraModificacion;
+	}
+
+	public Libro getLibro() {
+		return libro;
+	}
+
+	public void setLibro(Libro libro) {
+		this.libro = libro;
+	}
+
+	public TareaMatematica getTareaMatematica() {
+		return tareaMatematica;
+	}
+
+	public void setTareaMatematica(TareaMatematica tareaMatematica) {
+		this.tareaMatematica = tareaMatematica;
 	}
 }

@@ -81,6 +81,6 @@ public class TMRest {
 	@CrossOrigin
 	@ResponseBody
 	public TMDTO getTm(Long id) {
-		return tmService.getTm(id);
+		return tmService.getTmDto(id);
 	}
 }

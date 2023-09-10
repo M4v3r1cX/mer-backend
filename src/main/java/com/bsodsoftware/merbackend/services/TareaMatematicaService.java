@@ -71,7 +71,7 @@ public class TareaMatematicaService {
 		return ret;
 	}
 	
-	public TMDTO getTm(Long idTM) {
+	public TMDTO getTmDto(Long idTM) {
 		TMDTO ret = null;
 		Optional<TareaMatematica> ot = tmRepository.findById(idTM);
 		if (ot.get() != null) {
@@ -79,6 +79,15 @@ public class TareaMatematicaService {
 			ret.setId(ot.get().getId() + "");
 			ret.setDescripcion(ot.get().getDescripcion());
 			ret.setIdOa(ot.get().getObjetivoAcademico().getId() + "");
+		}
+		return ret;
+	}
+	
+	public TareaMatematica getTm(Long idTm) {
+		TareaMatematica ret = null;
+		Optional<TareaMatematica> otm = tmRepository.findById(idTm);
+		if (otm.get() != null) {
+			ret = otm.get();
 		}
 		return ret;
 	}
