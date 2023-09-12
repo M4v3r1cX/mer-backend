@@ -84,6 +84,7 @@ public class ActividadMerService {
 				ldto.setId(a.getId());
 				ldto.setNombre(a.getNombre());
 				ldto.setLibro(a.getLibro().getNombre());
+				ldto.setTm("TM-" + a.getTareaMatematica().getId());
 				ret.add(ldto);
 			}
 		}
@@ -124,16 +125,19 @@ public class ActividadMerService {
 	}
 	
 	private String guardarImagen(String imagenReferencia) {
-		Propiedad prop = propiedadService.getPropiedad("PATH_IMAGENES", "C:\\images\\");
-		String path = prop.getValue();
-		UUID uuid = UUID.randomUUID();
-		path += uuid.toString();
-		
-		byte[] data = Base64.getDecoder().decode(imagenReferencia);
-		try (OutputStream stream = new FileOutputStream(path)) {
-		    stream.write(data);
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		String path = null;
+		if (imagenReferencia != null && !imagenReferencia.isEmpty()) {
+			Propiedad prop = propiedadService.getPropiedad("PATH_IMAGENES", "C:\\images\\");
+			path = prop.getValue();
+			UUID uuid = UUID.randomUUID();
+			path += uuid.toString();
+			
+			byte[] data = Base64.getDecoder().decode(imagenReferencia);
+			try (OutputStream stream = new FileOutputStream(path)) {
+			    stream.write(data);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 		
 		return path;

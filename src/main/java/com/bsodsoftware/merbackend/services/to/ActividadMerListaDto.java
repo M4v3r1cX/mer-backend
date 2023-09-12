@@ -5,8 +5,7 @@ public class ActividadMerListaDto {
 	private Long id;
 	private String nombre;
 	private String libro;
-	private String red;
-	private String nivel;
+	private String tm;
 	
 	public Long getId() {
 		return id;
@@ -26,16 +25,10 @@ public class ActividadMerListaDto {
 	public void setLibro(String libro) {
 		this.libro = libro;
 	}
-	public String getRed() {
-		return red;
+	public String getTm() {
+		return tm;
 	}
-	public void setRed(String red) {
-		this.red = red;
-	}
-	public String getNivel() {
-		return nivel;
-	}
-	public void setNivel(String nivel) {
-		this.nivel = nivel;
+	public void setTm(String tm) {
+		this.tm = tm;
 	}
 }

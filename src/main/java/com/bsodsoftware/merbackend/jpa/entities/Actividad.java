@@ -13,8 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "actividad")
+//@Entity
+//@Table(name = "actividad")
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
