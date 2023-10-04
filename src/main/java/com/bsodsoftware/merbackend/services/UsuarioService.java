@@ -12,12 +12,19 @@ import com.bsodsoftware.merbackend.jpa.repository.UsuarioRepository;
 import com.bsodsoftware.merbackend.services.to.RegisterDTO;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 @Service
 public class UsuarioService {
-
+	
+	private String secret = "zE0/_2C])D2kS0072B_a}Ces[0T.r.,X'},tKJemUSeG/&7nhu"; // holy fuck 
+	
 	@Autowired
 	UsuarioRepository usuarioRepository;
 	
@@ -27,6 +34,10 @@ public class UsuarioService {
 	
 	public Usuario findByEmail(String email) {
 		return usuarioRepository.findByEmail(email);
+	}
+	
+	public String getSecret() {
+		return secret;
 	}
 	
 	public boolean createUsuario(RegisterDTO usuarioDto) throws Exception {
@@ -55,13 +66,16 @@ public class UsuarioService {
 		if (usuario != null) {
 			if (bcrypt.matches(passwd, usuario.getPassword())) {
 				System.out.println("Usuario loggeado correctamente.");
+				//SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 				token = Jwts.builder()
 						.claim("name", usuario.getNombre())
 						.claim("mail", username)
+						.claim("id", usuario.getId())
 						.setSubject(usuario.getNombre())
 						.setId(UUID.randomUUID().toString())
 						.setIssuedAt(Date.from(Instant.now()))
 						.setExpiration(Date.from(Instant.now().plus(51, ChronoUnit.MINUTES)))
+						.signWith(getSigningKey(), SignatureAlgorithm.HS256)
 						.compact();
 			} else {
 				System.out.println("Contraseña incorrecta.");
@@ -72,4 +86,9 @@ public class UsuarioService {
 		}
 		return token;
 	}
+	
+	private Key getSigningKey() {
+        byte[] keyBytes = this.secret.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 }

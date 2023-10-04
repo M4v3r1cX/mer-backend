@@ -1,18 +1,21 @@
 package com.bsodsoftware.merbackend.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bsodsoftware.merbackend.services.ObjetivoAprendizajeService;
+import com.bsodsoftware.merbackend.services.SecurityService;
 import com.bsodsoftware.merbackend.services.to.OAResponse;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
@@ -26,15 +29,23 @@ public class OARest {
 	@Autowired
 	private ObjetivoAprendizajeService oaService;
 	
+	@Autowired
+	private SecurityService securityService;
+	
 	@PostMapping("/save")
 	@CrossOrigin
 	@ResponseBody
-	public ResponseDTO guardarOa(@RequestBody OaDTO oaDto) {
+	public ResponseDTO guardarOa(@RequestBody OaDTO oaDto, @RequestHeader("Authorization") String token) {
 		ResponseDTO ret = new ResponseDTO();
-		
 		try {
-			oaService.guardarOa(oaDto, 1L);
-			ret.setCodigo(200);
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				oaService.guardarOa(oaDto, idUsuario);
+				ret.setCodigo(200);
+			} else {
+				ret.setCodigo(500);
+				ret.setComentario("Usuario de token no encontrado");
+			}
 		} catch (Exception ex) {
 			ret.setCodigo(500);
 			ret.setComentario(ex.getMessage());
@@ -46,30 +57,48 @@ public class OARest {
 	@GetMapping("getAllOas")
 	@CrossOrigin
 	@ResponseBody
-	public OAResponse getOas() {
+	public OAResponse getOas(@RequestHeader("Authorization") String token) {
 		OAResponse ret = new OAResponse();
-		List<OaDTO> oas = oaService.getOas();
-		if (oas != null && !oas.isEmpty()) {
-			ret.setCodigo(200);
-			ret.setComentario("OAs encontrados");
-			ret.setOas(oas);
-		} else {
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				List<OaDTO> oas = oaService.getOas();
+				if (oas != null && !oas.isEmpty()) {
+					ret.setCodigo(200);
+					ret.setComentario("OAs encontrados");
+					ret.setOas(oas);
+				} else {
+					ret.setCodigo(500);
+					ret.setComentario("Actividades no encontradas");
+				}
+			} else {
+				ret.setCodigo(500);
+				ret.setComentario("Usuario de token no encontrado");
+			}
+		} catch (Exception ex) {
 			ret.setCodigo(500);
-			ret.setComentario("OAs no encontrados");
+			ret.setComentario(ex.getMessage());
 		}
+		
 		return ret;
 	}
 	
 	@GetMapping("deleteOa")
 	@CrossOrigin
 	@ResponseBody
-	public ResponseDTO deleteOa(@RequestParam Long id) {
+	public ResponseDTO deleteOa(@RequestParam Long id,@RequestHeader("Authorization") String token) {
 		ResponseDTO ret = new ResponseDTO();
 		
 		try {
-			oaService.delete(id);
-			ret.setCodigo(200);
-			ret.setComentario("Eliminado correctamente");
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				oaService.delete(id);
+				ret.setCodigo(200);
+				ret.setComentario("Eliminado correctamente");
+			} else {
+				ret.setCodigo(500);
+				ret.setComentario("Usuario de token no encontrado");
+			}
 		} catch (Exception ex) {
 			ret.setCodigo(500);
 			ret.setComentario(ex.getLocalizedMessage());
@@ -81,8 +110,16 @@ public class OARest {
 	@GetMapping("getRedes")
 	@CrossOrigin
 	@ResponseBody
-	public RedResponse getRedes() {
-		RedResponse ret = oaService.getRedes();
+	public RedResponse getRedes(@RequestHeader("Authorization") String token) {
+		RedResponse ret = null;
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ret = oaService.getRedes();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		
 		return ret;
 	}
@@ -90,16 +127,32 @@ public class OARest {
 	@GetMapping("getOa")
 	@CrossOrigin
 	@ResponseBody
-	public OaDTO getOa(@RequestParam Long id) {
-		OaDTO ret = oaService.getOa(id);
+	public OaDTO getOa(@RequestParam Long id,@RequestHeader("Authorization") String token) {
+		OaDTO ret = null;
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ret = oaService.getOa(id);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return ret;
 	}
 	
 	@GetMapping("getHijos")
 	@CrossOrigin
 	@ResponseBody
-	public List<OaHijoDTO> getHijos(@RequestParam Long id) {
-		List<OaHijoDTO> ret = oaService.getHijos(id);
+	public List<OaHijoDTO> getHijos(@RequestParam Long id,@RequestHeader("Authorization") String token) {
+		List<OaHijoDTO> ret = null;
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ret = oaService.getHijos(id);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return ret;
 	}
 }

@@ -33,7 +33,6 @@ public class Usuario implements Serializable {
 	
 	@Column(name = "email")
 	private String email;
-
 	public Long getId() {
 		return id;
 	}
