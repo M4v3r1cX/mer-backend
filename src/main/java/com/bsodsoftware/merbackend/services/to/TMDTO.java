@@ -6,6 +6,7 @@ public class TMDTO {
 	private String descripcion;
 	private String idOa;
 	private String codigoOa;
+	private String descripcionOa;
 	
 	public String getId() {
 		return id;
@@ -30,5 +31,11 @@ public class TMDTO {
 	}
 	public void setCodigoOa(String codigoOa) {
 		this.codigoOa = codigoOa;
+	}
+	public String getDescripcionOa() {
+		return descripcionOa;
+	}
+	public void setDescripcionOa(String descripcionOa) {
+		this.descripcionOa = descripcionOa;
 	}
 }

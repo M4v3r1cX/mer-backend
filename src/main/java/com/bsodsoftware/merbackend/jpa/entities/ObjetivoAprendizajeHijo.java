@@ -6,6 +6,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -44,6 +46,20 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	
 	@Column(name = "descripcion")
 	private String descripcion;
+	
+	@OneToMany(mappedBy = "objetivoAprendizajeHijo", fetch = FetchType.LAZY)
+	private List<TareaMatematica> tareasMatematicas;
+	
+	@Column(name = "priorizado")
+	private Boolean priorizado;
+
+	public List<TareaMatematica> getTareasMatematicas() {
+		return tareasMatematicas;
+	}
+
+	public void setTareasMatematicas(List<TareaMatematica> tareasMatematicas) {
+		this.tareasMatematicas = tareasMatematicas;
+	}
 
 	public Long getId() {
 		return id;
@@ -96,5 +112,20 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 			setNiveles(new ArrayList<Nivel>());
 		}
 		this.getNiveles().add(nivel);
+	}
+	
+	public void addTareaMatematica(TareaMatematica tm) {
+		if (this.getTareasMatematicas() == null) {
+			setTareasMatematicas(new ArrayList<TareaMatematica>());
+		}
+		this.getTareasMatematicas().add(tm);
+	}
+
+	public Boolean isPriorizado() {
+		return priorizado;
+	}
+
+	public void setPriorizado(Boolean priorizado) {
+		this.priorizado = priorizado;
 	}
 }

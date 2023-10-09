@@ -13,5 +13,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/mer?createDatabaseIfNotExist=true
     driver-class-name: com.mysql.cj.jdbc.Driver
+    #username: mer
+    #password: Mer#20230930!
     username: root
     password: Songuanda2501

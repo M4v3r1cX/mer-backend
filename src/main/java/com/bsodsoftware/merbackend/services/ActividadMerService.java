@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.bsodsoftware.merbackend.jpa.entities.ActividadMer;
 import com.bsodsoftware.merbackend.jpa.entities.Libro;
+import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.Propiedad;
+import com.bsodsoftware.merbackend.jpa.entities.Red;
 import com.bsodsoftware.merbackend.jpa.entities.TareaMatematica;
 import com.bsodsoftware.merbackend.jpa.repository.ActividadMerRepository;
 import com.bsodsoftware.merbackend.services.to.ActividadMerDTO;
@@ -48,7 +50,7 @@ public class ActividadMerService {
 		}
 		amer.setDescripcionActividad(merdto.getDescripcionActividad());
 		amer.setIdUsuarioCarga(idUsuario);
-		amer.setImagenReferencia(merdto.getImagenReferencia());
+		//amer.setImagenReferencia(merdto.getImagenReferencia());
 		amer.setLinkReferencia(merdto.getLinkReferencia());
 		amer.setUbicacionEnLibro(merdto.getUbicacionEnLibro());
 		amer.setNombre(merdto.getNombre());
@@ -85,6 +87,13 @@ public class ActividadMerService {
 				ldto.setNombre(a.getNombre());
 				ldto.setLibro(a.getLibro().getNombre());
 				ldto.setTm("TM-" + a.getTareaMatematica().getId());
+				ldto.setOa(a.getTareaMatematica().getObjetivoAprendizajeHijo().getObjetivoAprendizaje().getNombre());
+				for (Nivel n : a.getTareaMatematica().getObjetivoAprendizajeHijo().getNiveles()) {
+					ldto.addNivel(n.getNombre());
+				}
+				for (Red r : a.getTareaMatematica().getObjetivoAprendizajeHijo().getRedes()) {
+					ldto.addRed(r.getNombre());
+				}
 				ret.add(ldto);
 			}
 		}
@@ -132,7 +141,8 @@ public class ActividadMerService {
 			UUID uuid = UUID.randomUUID();
 			path += uuid.toString();
 			
-			byte[] data = Base64.getDecoder().decode(imagenReferencia);
+			String partes[] = imagenReferencia.split(",");
+			byte[] data = Base64.getDecoder().decode(partes[1]);
 			try (OutputStream stream = new FileOutputStream(path)) {
 			    stream.write(data);
 			} catch (Exception ex) {

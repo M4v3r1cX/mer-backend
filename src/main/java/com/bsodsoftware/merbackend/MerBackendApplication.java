@@ -10,7 +10,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @EnableAutoConfiguration
 @SpringBootApplication
-public class MerBackendApplication extends SpringBootServletInitializer {
+public class MerBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MerBackendApplication.class, args);
