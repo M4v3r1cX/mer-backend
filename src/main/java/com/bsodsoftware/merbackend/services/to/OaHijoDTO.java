@@ -7,6 +7,7 @@ public class OaHijoDTO {
 	private String descripcion;
 	private List<String> redes;
 	private List<String> niveles;
+	private Boolean prioridad;
 	
 	public String getDescripcion() {
 		return descripcion;
@@ -37,5 +38,11 @@ public class OaHijoDTO {
 			this.setNiveles(new ArrayList<String>());
 		}
 		this.getNiveles().add(n);
+	}
+	public Boolean getPrioridad() {
+		return prioridad;
+	}
+	public void setPrioridad(Boolean prioridad) {
+		this.prioridad = prioridad;
 	}
 }

@@ -38,6 +38,10 @@ public class ObjetivoAprendizajeService {
 		oaRepository.saveAndFlush(entity);
 	}
 	
+	public void save(ObjetivoAprendizajeHijo entity) {
+		oaHijoRepository.saveAndFlush(entity);
+	}
+	
 	public void guardarOa(OaDTO oadto, Long idUsuario) {
 		ObjetivoAprendizaje oa = null;
 		if (oadto.getId() != null && !oadto.getId().isEmpty()) {
@@ -67,6 +71,7 @@ public class ObjetivoAprendizajeService {
 				ObjetivoAprendizajeHijo oahijo = new ObjetivoAprendizajeHijo();
 				oahijo.setDescripcion(oahijodto.getDescripcion());
 				oahijo.setObjetivoAprendizaje(oa);
+				oahijo.setPriorizado(oahijodto.getPrioridad());
 				for (String r : oahijodto.getRedes()) {
 					Red red = redService.findById(Long.valueOf(r));
 					if (red != null) {
@@ -124,13 +129,13 @@ public class ObjetivoAprendizajeService {
 	
 	public List<OaTmDto> getOasTms() {
 		List<OaTmDto> ret = null;
-		List<ObjetivoAprendizaje> oas = oaRepository.findAll();
+		List<ObjetivoAprendizajeHijo> oas = oaHijoRepository.findAll();
 		if (oas != null && !oas.isEmpty()) {
 			ret = new ArrayList<OaTmDto>();
-			for (ObjetivoAprendizaje oa : oas) {
+			for (ObjetivoAprendizajeHijo oa : oas) {
 				OaTmDto otd = new OaTmDto();
 				otd.setId(oa.getId() + "");
-				otd.setCodigo(oa.getNombre());
+				otd.setCodigo(oa.getObjetivoAprendizaje().getNombre());
 				otd.setDescripcion(oa.getDescripcion());
 				ret.add(otd);
 			}
@@ -163,6 +168,17 @@ public class ObjetivoAprendizajeService {
 		return oa;
 	}
 	
+	public ObjetivoAprendizajeHijo findOaHijoById(Long id) {
+		ObjetivoAprendizajeHijo oaHijo = null;
+		try {
+			Optional<ObjetivoAprendizajeHijo> op = oaHijoRepository.findById(id);
+			oaHijo = op.get();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return oaHijo;
+	}
+	
 	public List<OaHijoDTO> getHijos(Long id) {
 		List<OaHijoDTO> ret = null;
 		
@@ -172,6 +188,7 @@ public class ObjetivoAprendizajeService {
 			for (ObjetivoAprendizajeHijo oahijo : oa.getHijos()) {
 				OaHijoDTO oadto = new OaHijoDTO();
 				oadto.setDescripcion(oahijo.getDescripcion());
+				oadto.setPrioridad(oahijo.isPriorizado() != null ? oahijo.isPriorizado() : false);
 				for (Red r : oahijo.getRedes()) {
 					oadto.addRed(r.getNombre());
 				}

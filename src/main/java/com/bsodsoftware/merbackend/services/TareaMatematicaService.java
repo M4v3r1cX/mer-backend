@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
+import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
 import com.bsodsoftware.merbackend.jpa.entities.TareaMatematica;
 import com.bsodsoftware.merbackend.jpa.repository.TareaMatematicaRepository;
 import com.bsodsoftware.merbackend.services.to.TMDTO;
@@ -40,11 +41,11 @@ public class TareaMatematicaService {
 		tm.setDescripcion(tmDto.getDescripcion());
 		tm.setIdUsuario(idUsuario);
 		save(tm);
-		ObjetivoAprendizaje oa = oaService.findOaById(Long.valueOf(tmDto.getIdOa()));
-		if (oa != null) {
-			oa.addTm(tm);
-			oaService.save(oa);
-			tm.setObjetivoAcademico(oa);
+		ObjetivoAprendizajeHijo oaHijo = oaService.findOaHijoById(Long.valueOf(tmDto.getIdOa()));
+		if (oaHijo != null) {
+			oaHijo.addTareaMatematica(tm);
+			oaService.save(oaHijo);
+			tm.setObjetivoAprendizajeHijo(oaHijo);
 			save(tm);
 		}
 	}
@@ -62,9 +63,10 @@ public class TareaMatematicaService {
 				TMDTO tmdto = new TMDTO();
 				tmdto.setId(tm.getId() + "");
 				tmdto.setDescripcion(tm.getDescripcion());
-				ObjetivoAprendizaje oa = tm.getObjetivoAcademico();
-				tmdto.setIdOa(oa.getId() + "");
-				tmdto.setCodigoOa(oa.getNombre());
+				ObjetivoAprendizajeHijo oaHijo = tm.getObjetivoAprendizajeHijo();
+				tmdto.setIdOa(oaHijo.getId() + "");
+				tmdto.setCodigoOa(oaHijo.getObjetivoAprendizaje().getNombre());
+				tmdto.setDescripcionOa(oaHijo.getDescripcion());
 				ret.add(tmdto);
 			}
 		}
@@ -78,7 +80,7 @@ public class TareaMatematicaService {
 			ret = new TMDTO();
 			ret.setId(ot.get().getId() + "");
 			ret.setDescripcion(ot.get().getDescripcion());
-			ret.setIdOa(ot.get().getObjetivoAcademico().getId() + "");
+			ret.setIdOa(ot.get().getObjetivoAprendizajeHijo().getId() + "");
 		}
 		return ret;
 	}

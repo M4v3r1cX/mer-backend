@@ -49,6 +49,7 @@ public class ActividadMerRest {
 		} catch (Exception ex) {
 			ret.setCodigo(500);
 			ret.setComentario(ex.getMessage());
+			ex.printStackTrace();
 		}
 		
 		return ret;
