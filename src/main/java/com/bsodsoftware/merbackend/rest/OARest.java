@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bsodsoftware.merbackend.jpa.entities.Auditoria;
+import com.bsodsoftware.merbackend.services.AuditoriaService;
 import com.bsodsoftware.merbackend.services.ObjetivoAprendizajeService;
 import com.bsodsoftware.merbackend.services.SecurityService;
 import com.bsodsoftware.merbackend.services.to.OAResponse;
@@ -92,7 +94,7 @@ public class OARest {
 		try {
 			Long idUsuario = securityService.validateToken(token);
 			if (!idUsuario.equals(-1L)) {
-				oaService.delete(id);
+				oaService.delete(id, idUsuario);
 				ret.setCodigo(200);
 				ret.setComentario("Eliminado correctamente");
 			} else {

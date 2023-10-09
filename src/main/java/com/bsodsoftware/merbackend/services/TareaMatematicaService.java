@@ -22,6 +22,9 @@ public class TareaMatematicaService {
 	@Autowired
 	private ObjetivoAprendizajeService oaService;
 	
+	@Autowired
+	private AuditoriaService auditoriaService;
+	
 	private TareaMatematica save(TareaMatematica tm) {
 		try {
 			return tmRepository.saveAndFlush(tm);
@@ -40,7 +43,8 @@ public class TareaMatematicaService {
 		}
 		tm.setDescripcion(tmDto.getDescripcion());
 		tm.setIdUsuario(idUsuario);
-		save(tm);
+		tm = save(tm);
+		
 		ObjetivoAprendizajeHijo oaHijo = oaService.findOaHijoById(Long.valueOf(tmDto.getIdOa()));
 		if (oaHijo != null) {
 			oaHijo.addTareaMatematica(tm);

@@ -1,12 +1,14 @@
 package com.bsodsoftware.merbackend.services;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bsodsoftware.merbackend.jpa.entities.Auditoria;
 import com.bsodsoftware.merbackend.jpa.entities.Usuario;
 import com.bsodsoftware.merbackend.jpa.repository.UsuarioRepository;
 import com.bsodsoftware.merbackend.services.to.RegisterDTO;
@@ -28,12 +30,19 @@ public class UsuarioService {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 	
+	@Autowired
+	AuditoriaService auditoriaService;
+	
 	public Usuario save(Usuario entity) {
 		return usuarioRepository.save(entity);
 	}
 	
 	public Usuario findByEmail(String email) {
 		return usuarioRepository.findByEmail(email);
+	}
+	
+	public Optional<Usuario> findById(Long id) {
+		return usuarioRepository.findById(id);
 	}
 	
 	public String getSecret() {
@@ -77,6 +86,7 @@ public class UsuarioService {
 						.setExpiration(Date.from(Instant.now().plus(51, ChronoUnit.MINUTES)))
 						.signWith(getSigningKey(), SignatureAlgorithm.HS256)
 						.compact();
+				auditoriaService.guardarAccion(Auditoria.ACCION.LOGIN, usuario.getId());
 			} else {
 				System.out.println("Contraseña incorrecta.");
 				throw new Exception ("Contraseña incorrecta.");

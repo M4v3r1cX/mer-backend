@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bsodsoftware.merbackend.jpa.entities.Auditoria;
 import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
@@ -34,6 +35,9 @@ public class ObjetivoAprendizajeService {
 	@Autowired
 	private ObjetivoAprendizajeHijoRepository oaHijoRepository;
 	
+	@Autowired
+	private AuditoriaService auditoriaService;
+	
 	public void save(ObjetivoAprendizaje entity) {
 		oaRepository.saveAndFlush(entity);
 	}
@@ -43,11 +47,14 @@ public class ObjetivoAprendizajeService {
 	}
 	
 	public void guardarOa(OaDTO oadto, Long idUsuario) {
+		Auditoria.ACCION accion = null;
 		ObjetivoAprendizaje oa = null;
 		if (oadto.getId() != null && !oadto.getId().isEmpty()) {
 			oa = oaRepository.getReferenceById(Long.valueOf(oadto.getId()));
+			accion = Auditoria.ACCION.OA_EDITAR;
 		} else {
 			oa = new ObjetivoAprendizaje();
+			accion = Auditoria.ACCION.OA_CREAR;
 		}
 		oa.setDescripcion(oadto.getDescripcion());
 		oa.setIdUsuario(idUsuario);
@@ -89,9 +96,10 @@ public class ObjetivoAprendizajeService {
 		}
 		save(oa);
 		oaHijoRepository.saveAll(oa.getHijos());
+		auditoriaService.guardarAccion(accion, idUsuario);
 	}
 	
-	public void delete(Long id) {
+	public void delete(Long id, Long idUsuario) {
 		ObjetivoAprendizaje oa = oaRepository.getReferenceById(id);
 		if (oa != null) {
 			if (oa.getHijos() != null && !oa.getHijos().isEmpty()) {
@@ -101,6 +109,7 @@ public class ObjetivoAprendizajeService {
 			}
 		}
 		oaRepository.deleteById(id);
+		auditoriaService.guardarAccion(Auditoria.ACCION.OA_ELIMINAR, idUsuario);
 	}
 	
 	public List<OaDTO> getOas() {
