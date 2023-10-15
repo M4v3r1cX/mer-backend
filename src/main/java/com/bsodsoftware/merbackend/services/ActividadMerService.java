@@ -129,6 +129,7 @@ public class ActividadMerService {
 			ret.setNombre(amer.getNombre());
 			ret.setUbicacionEnLibro(amer.getUbicacionEnLibro());
 			ret.setId(amer.getId() + "");
+			ret.setIdTm(amer.getTareaMatematica().getId() + "");
 		}
 		return ret;
 	}

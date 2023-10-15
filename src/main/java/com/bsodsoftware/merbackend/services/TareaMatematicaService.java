@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
+import com.bsodsoftware.merbackend.jpa.entities.Red;
 import com.bsodsoftware.merbackend.jpa.entities.TareaMatematica;
 import com.bsodsoftware.merbackend.jpa.repository.TareaMatematicaRepository;
 import com.bsodsoftware.merbackend.services.to.TMDTO;
@@ -68,9 +70,18 @@ public class TareaMatematicaService {
 				tmdto.setId(tm.getId() + "");
 				tmdto.setDescripcion(tm.getDescripcion());
 				ObjetivoAprendizajeHijo oaHijo = tm.getObjetivoAprendizajeHijo();
-				tmdto.setIdOa(oaHijo.getId() + "");
-				tmdto.setCodigoOa(oaHijo.getObjetivoAprendizaje().getNombre());
-				tmdto.setDescripcionOa(oaHijo.getDescripcion());
+				if (oaHijo != null) {
+					tmdto.setIdOa(oaHijo.getId() + "");
+					tmdto.setDescripcionOa(oaHijo.getDescripcion());
+					ObjetivoAprendizaje oaPadre = oaHijo.getObjetivoAprendizaje();
+					tmdto.setCodigoOa(oaPadre.getNombre());
+					for (Red r : oaPadre.getRedes()) {
+						tmdto.addRed(r.getNombre());
+					}
+					for (Nivel n : oaPadre.getNiveles()) {
+						tmdto.addNivel(n.getNombre());
+					}
+				}
 				ret.add(tmdto);
 			}
 		}
