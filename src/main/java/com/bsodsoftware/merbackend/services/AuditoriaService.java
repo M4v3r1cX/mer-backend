@@ -14,11 +14,12 @@ public class AuditoriaService {
 	@Autowired
 	private AuditoriaRepository auditoriaRepository;
 	
-	public void guardarAccion(Auditoria.ACCION accion, Long idUsuario) {
+	public void guardarAccion(Auditoria.ACCION accion, Long idUsuario, Long idAfectado) {
 		Auditoria auditoria = new Auditoria();
 		auditoria.setAccion(accion);
 		auditoria.setIdUsuario(idUsuario);
 		auditoria.setFechaHoraEvento(new Date());
+		auditoria.setIdAfectado(idAfectado);
 		auditoriaRepository.saveAndFlush(auditoria);
 	}
 }

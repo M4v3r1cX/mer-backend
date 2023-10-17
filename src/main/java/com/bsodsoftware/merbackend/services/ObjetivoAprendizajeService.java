@@ -38,12 +38,12 @@ public class ObjetivoAprendizajeService {
 	@Autowired
 	private AuditoriaService auditoriaService;
 	
-	public void save(ObjetivoAprendizaje entity) {
-		oaRepository.saveAndFlush(entity);
+	public ObjetivoAprendizaje save(ObjetivoAprendizaje entity) {
+		return oaRepository.saveAndFlush(entity);
 	}
 	
-	public void save(ObjetivoAprendizajeHijo entity) {
-		oaHijoRepository.saveAndFlush(entity);
+	public ObjetivoAprendizajeHijo save(ObjetivoAprendizajeHijo entity) {
+		return oaHijoRepository.saveAndFlush(entity);
 	}
 	
 	public void guardarOa(OaDTO oadto, Long idUsuario) {
@@ -93,10 +93,28 @@ public class ObjetivoAprendizajeService {
 				}
 				oa.addHijo(oahijo);
 			}
+		} else {
+			ObjetivoAprendizajeHijo oahijo = new ObjetivoAprendizajeHijo();
+			oahijo.setDescripcion(oadto.getDescripcion());
+			oahijo.setObjetivoAprendizaje(oa);
+			oahijo.setPriorizado(oadto.getPrioridad());
+			for (String r : oadto.getRedes()) {
+				Red red = redService.findById(Long.valueOf(r));
+				if (red != null) {
+					oahijo.addRed(red);
+				}
+			}
+			for (String n : oadto.getNiveles()) {
+				Nivel nivel = nivelService.findById(Long.valueOf(n));
+				if (nivel != null) {
+					oahijo.addNivel(nivel);
+				}
+			}
+			oa.addHijo(oahijo);
 		}
-		save(oa);
+		oa = save(oa);
 		oaHijoRepository.saveAll(oa.getHijos());
-		auditoriaService.guardarAccion(accion, idUsuario);
+		auditoriaService.guardarAccion(accion, idUsuario, oa.getId());
 	}
 	
 	public void delete(Long id, Long idUsuario) {
@@ -109,7 +127,7 @@ public class ObjetivoAprendizajeService {
 			}
 		}
 		oaRepository.deleteById(id);
-		auditoriaService.guardarAccion(Auditoria.ACCION.OA_ELIMINAR, idUsuario);
+		auditoriaService.guardarAccion(Auditoria.ACCION.OA_ELIMINAR, idUsuario, id);
 	}
 	
 	public List<OaDTO> getOas() {

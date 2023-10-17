@@ -1,5 +1,6 @@
 package com.bsodsoftware.merbackend.services;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -8,10 +9,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bsodsoftware.merbackend.jpa.entities.ActividadMer;
+import com.bsodsoftware.merbackend.jpa.entities.Auditoria;
 import com.bsodsoftware.merbackend.jpa.entities.Libro;
 import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.Propiedad;
@@ -37,16 +40,22 @@ public class ActividadMerService {
 	@Autowired
 	private PropiedadService propiedadService;
 	
-	private void save(ActividadMer entity) {
-		actividadMerRepository.saveAndFlush(entity);
+	@Autowired
+	private AuditoriaService auditoriaService;
+	
+	private ActividadMer save(ActividadMer entity) {
+		return actividadMerRepository.saveAndFlush(entity);
 	}
 	
 	public void guardarActividad(ActividadMerDTO merdto, Long idUsuario) {
+		Auditoria.ACCION accion = null;
 		ActividadMer amer = null;
 		if (merdto.getId() != null && !merdto.getId().isEmpty()) {
 			amer = actividadMerRepository.getReferenceById(Long.valueOf(merdto.getId()));
+			accion = Auditoria.ACCION.ACTIVIDAD_EDITAR;
 		} else {
 			amer= new ActividadMer();
+			accion = Auditoria.ACCION.ACTIVIDAD_CREAR;
 		}
 		amer.setDescripcionActividad(merdto.getDescripcionActividad());
 		amer.setIdUsuarioCarga(idUsuario);
@@ -56,7 +65,7 @@ public class ActividadMerService {
 		amer.setNombre(merdto.getNombre());
 		amer.setFechaHoraCreacion(new Date());
 		
-		String pathImagen = guardarImagen(merdto.getImagenReferencia());
+		String pathImagen = guardarImagen(merdto.getImagenReferencia(), amer.getImagenReferencia());
 		amer.setImagenReferencia(pathImagen);
 		
 		Libro l = libroService.findById(Long.valueOf(merdto.getIdLibro()));
@@ -69,7 +78,9 @@ public class ActividadMerService {
 			amer.setTareaMatematica(tm);
 		}
 		
-		save(amer);
+		amer = save(amer);
+		
+		auditoriaService.guardarAccion(accion, idUsuario, amer.getId());
 	}
 
 	public void delete(Long id) {
@@ -130,19 +141,38 @@ public class ActividadMerService {
 			ret.setUbicacionEnLibro(amer.getUbicacionEnLibro());
 			ret.setId(amer.getId() + "");
 			ret.setIdTm(amer.getTareaMatematica().getId() + "");
+			ret.setImagenReferencia(getImagenB64(amer.getImagenReferencia()));
 		}
 		return ret;
 	}
 	
-	private String guardarImagen(String imagenReferencia) {
-		String path = null;
+	private String getImagenB64(String imagenReferencia) {
+		String ret = null;
 		if (imagenReferencia != null && !imagenReferencia.isEmpty()) {
-			Propiedad prop = propiedadService.getPropiedad("PATH_IMAGENES", "C:\\images\\");
-			path = prop.getValue();
-			UUID uuid = UUID.randomUUID();
-			path += uuid.toString();
+			try {
+				byte[] fileContent = FileUtils.readFileToByteArray(new File(imagenReferencia));
+				ret = Base64.getEncoder().encodeToString(fileContent);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
+	private String guardarImagen(String imagenB64, String imagenReferenciaActual) {
+		String path = null;
+		
+		if (imagenB64 != null && !imagenB64.isEmpty()) {
+			if (imagenReferenciaActual != null && !imagenReferenciaActual.isEmpty()) {
+				path = imagenReferenciaActual;
+			} else {
+				Propiedad prop = propiedadService.getPropiedad("PATH_IMAGENES", "C:\\images\\");
+				path = prop.getValue();
+				UUID uuid = UUID.randomUUID();
+				path += uuid.toString();
+			}
 			
-			String partes[] = imagenReferencia.split(",");
+			String partes[] = imagenB64.split(",");
 			byte[] data = Base64.getDecoder().decode(partes[1]);
 			try (OutputStream stream = new FileOutputStream(path)) {
 			    stream.write(data);

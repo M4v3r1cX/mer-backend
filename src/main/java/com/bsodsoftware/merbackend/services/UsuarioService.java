@@ -86,7 +86,7 @@ public class UsuarioService {
 						.setExpiration(Date.from(Instant.now().plus(51, ChronoUnit.MINUTES)))
 						.signWith(getSigningKey(), SignatureAlgorithm.HS256)
 						.compact();
-				auditoriaService.guardarAccion(Auditoria.ACCION.LOGIN, usuario.getId());
+				auditoriaService.guardarAccion(Auditoria.ACCION.LOGIN, usuario.getId(), null);
 			} else {
 				System.out.println("Contraseña incorrecta.");
 				throw new Exception ("Contraseña incorrecta.");
