@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OaHijoDTO {
+	private Long id;
 	private String descripcion;
 	private List<String> redes;
 	private List<String> niveles;
@@ -44,5 +45,11 @@ public class OaHijoDTO {
 	}
 	public void setPrioridad(Boolean prioridad) {
 		this.prioridad = prioridad;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

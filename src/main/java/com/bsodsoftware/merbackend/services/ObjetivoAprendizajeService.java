@@ -177,9 +177,27 @@ public class ObjetivoAprendizajeService {
 			ret = new OaDTO();
 			ret.setDescripcion(oa.getDescripcion());
 			ret.setId(oa.getId() + "");
-			//ret.setIdNivel(oa.getIdNivel() + "");
-			//ret.setIdRed(oa.getIdRed() + "");
 			ret.setCodigo(oa.getNombre());
+			ret.setPrioridad(oa.isPriorizado());
+			for (Red r : oa.getRedes()) {
+				ret.addRed(r.getId() + "");
+			}
+			for (Nivel n : oa.getNiveles()) {
+				ret.addNivel(n.getId() + "");
+			}
+			for (ObjetivoAprendizajeHijo oah : oa.getHijos()) {
+				OaHijoDTO otd = new OaHijoDTO();
+				otd.setId(oah.getId());
+				otd.setDescripcion(oah.getDescripcion());
+				otd.setPrioridad(oah.isPriorizado());
+				for (Red r : oah.getRedes()) {
+					otd.addRed(r.getNombre());
+				}
+				for (Nivel n : oah.getNiveles()) {
+					otd.addNivel(n.getNombre());
+				}
+				ret.addHijo(otd);
+			}
 		}
 		return ret;
 	}

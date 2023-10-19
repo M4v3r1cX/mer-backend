@@ -67,4 +67,10 @@ public class OaDTO {
 		}
 		this.getNiveles().add(n);
 	}
+	public void addHijo(OaHijoDTO hijo) {
+		if (this.getHijos() == null) {
+			this.setHijos(new ArrayList<OaHijoDTO>());
+		}
+		this.getHijos().add(hijo);
+	}
 }
