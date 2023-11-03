@@ -1,12 +1,15 @@
 package com.bsodsoftware.merbackend.jpa.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,7 +27,12 @@ public class Red implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	public Red() {}
+	@OneToMany(mappedBy = "red")
+	private List<SubcategoriaRed> subcategoriaRed;
+	
+	public Red() {
+		
+	}
 	
 	public Red(String nombre, String descripcion) {
 		this.nombre = nombre;
@@ -53,5 +61,20 @@ public class Red implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	public List<SubcategoriaRed> getSubcategoriaRed() {
+		return subcategoriaRed;
+	}
+
+	public void setSubcategoriaRed(List<SubcategoriaRed> subcategoriaRed) {
+		this.subcategoriaRed = subcategoriaRed;
+	}
+	
+	public void addSubcategoriaRed(SubcategoriaRed subcategoriaRed) {
+		if (this.getSubcategoriaRed() == null) {
+			this.setSubcategoriaRed(new ArrayList<SubcategoriaRed>());
+		}
+		this.getSubcategoriaRed().add(subcategoriaRed);
 	}
 }
