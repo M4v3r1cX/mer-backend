@@ -26,6 +26,10 @@ public class SubcategoriaRed implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_red")
 	private Red red;
+	
+	public SubcategoriaRed() {
+		
+	}
 
 	public SubcategoriaRed(String descripcion, Red red) {
 		super();

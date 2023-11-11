@@ -12,6 +12,7 @@ import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
 import com.bsodsoftware.merbackend.jpa.entities.Red;
+import com.bsodsoftware.merbackend.jpa.entities.SubcategoriaRed;
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeHijoRepository;
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeRepository;
 import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
@@ -19,6 +20,7 @@ import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
 import com.bsodsoftware.merbackend.services.to.OaTmDto;
 import com.bsodsoftware.merbackend.services.to.RedResponse;
+import com.bsodsoftware.merbackend.services.to.SubcategoriaDTO;
 
 @Service
 public class ObjetivoAprendizajeService {
@@ -257,6 +259,14 @@ public class ObjetivoAprendizajeService {
 				LibroRedDTO l = new LibroRedDTO();
 				l.setId(r.getId());
 				l.setNombre(r.getNombre());
+				if (r.getSubcategoriaRed() != null && !r.getSubcategoriaRed().isEmpty()) {
+					for (SubcategoriaRed s : r.getSubcategoriaRed()) {
+						SubcategoriaDTO sdto = new SubcategoriaDTO();
+						sdto.setId(s.getId());
+						sdto.setDescripcion(s.getDescripcion());
+						l.addSubcategoria(sdto);
+					}
+				}
 				reds.add(l);
 			}
 		}
