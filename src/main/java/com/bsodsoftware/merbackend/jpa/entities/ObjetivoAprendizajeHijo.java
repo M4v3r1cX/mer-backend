@@ -26,12 +26,19 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToMany
+	/*@ManyToMany
 	@JoinTable(
 		name = "oa_hijo_red",
 		joinColumns = @JoinColumn(name = "id_oa_hijo"),
 		inverseJoinColumns = @JoinColumn(name  = "id_red"))
-	private List<Red> redes;
+	private List<Red> redes;*/
+	
+	@ManyToMany
+	@JoinTable(
+		name = "oa_hijo_subcategoria",
+		joinColumns = @JoinColumn(name = "id_oa_hijo"),
+		inverseJoinColumns = @JoinColumn(name  = "id_subcategoria"))
+	private List<SubcategoriaRed> subcategorias;
 	
 	@ManyToMany
 	@JoinTable(
@@ -52,6 +59,9 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	
 	@Column(name = "priorizado")
 	private Boolean priorizado;
+	
+	@Column(name = "hijo_por_defecto")
+	private Boolean hijoPorDefecto;
 
 	public List<TareaMatematica> getTareasMatematicas() {
 		return tareasMatematicas;
@@ -69,12 +79,16 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 		this.id = id;
 	}
 
-	public List<Red> getRedes() {
-		return redes;
+	public List<SubcategoriaRed> getSubcategorias() {
+		return subcategorias;
 	}
 
-	public void setRedes(List<Red> redes) {
-		this.redes = redes;
+	public void setSubcategorias(List<SubcategoriaRed> subcategorias) {
+		this.subcategorias = subcategorias;
+	}
+
+	public Boolean getPriorizado() {
+		return priorizado;
 	}
 
 	public List<Nivel> getNiveles() {
@@ -100,11 +114,12 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public void addRed(Red red) {
-		if (this.getRedes() == null) {
-			setRedes(new ArrayList<Red>());
+	
+	public void addSubcategoria(SubcategoriaRed subcategoria) {
+		if (this.getSubcategorias() == null) {
+			setSubcategorias(new ArrayList<SubcategoriaRed>());
 		}
-		this.getRedes().add(red);
+		this.getSubcategorias().add(subcategoria);
 	}
 	
 	public void addNivel(Nivel nivel) {
@@ -127,5 +142,13 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 
 	public void setPriorizado(Boolean priorizado) {
 		this.priorizado = priorizado;
+	}
+
+	public Boolean getHijoPorDefecto() {
+		return hijoPorDefecto;
+	}
+
+	public void setHijoPorDefecto(Boolean hijoPorDefecto) {
+		this.hijoPorDefecto = hijoPorDefecto;
 	}
 }

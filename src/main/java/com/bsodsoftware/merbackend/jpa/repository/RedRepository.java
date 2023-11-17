@@ -6,4 +6,5 @@ import com.bsodsoftware.merbackend.jpa.entities.Red;
 
 public interface RedRepository extends JpaRepository<Red, Long> {
 
+	Red findOneByNombre(String nombre);
 }

@@ -31,12 +31,19 @@ public class ObjetivoAprendizaje implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@ManyToMany
+	/*@ManyToMany
 	@JoinTable(
 		name = "oa_red",
 		joinColumns = @JoinColumn(name = "id_oa"),
 		inverseJoinColumns = @JoinColumn(name  = "id_red"))
-	private List<Red> redes;
+	private List<Red> redes;*/
+	
+	@ManyToMany
+	@JoinTable(
+		name = "oa_subcategoria",
+		joinColumns = @JoinColumn(name = "id_oa"),
+		inverseJoinColumns = @JoinColumn(name  = "id_subcategoria"))
+	private List<SubcategoriaRed> subcategorias;
 	
 	@ManyToMany
 	@JoinTable(
@@ -78,12 +85,12 @@ public class ObjetivoAprendizaje implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public List<Red> getRedes() {
-		return redes;
+	public List<SubcategoriaRed> getSubcategorias() {
+		return subcategorias;
 	}
 
-	public void setRedes(List<Red> redes) {
-		this.redes = redes;
+	public void setSubcategorias(List<SubcategoriaRed> subcategorias) {
+		this.subcategorias = subcategorias;
 	}
 
 	public List<Nivel> getNiveles() {
@@ -102,11 +109,11 @@ public class ObjetivoAprendizaje implements Serializable {
 		this.idUsuario = idUsuario;
 	}
 	
-	public void addRed(Red red) {
-		if (this.getRedes() == null) {
-			setRedes(new ArrayList<Red>());
+	public void addSubcategoria(SubcategoriaRed subcategoria) {
+		if (this.getSubcategorias() == null) {
+			setSubcategorias(new ArrayList<SubcategoriaRed>());
 		}
-		this.getRedes().add(red);
+		this.getSubcategorias().add(subcategoria);
 	}
 	
 	public void addNivel(Nivel nivel) {

@@ -1,6 +1,7 @@
 package com.bsodsoftware.merbackend.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,20 @@ public class RedService {
 		return redRepository.count();
 	}
 	
+	public long countSubcategorias() {
+		return subcategoriaRepository.count();
+	}
+	
 	public SubcategoriaRed saveSubcategoria(SubcategoriaRed subcategoria) {
 		return subcategoriaRepository.saveAndFlush(subcategoria);
+	}
+	
+	public SubcategoriaRed findSubcategoriaById(Long id) {
+		Optional<SubcategoriaRed> op = subcategoriaRepository.findById(id);
+		return op.get();
+	}
+	
+	public Red findRedByNombre(String nombre) {
+		return redRepository.findOneByNombre(nombre);
 	}
 }

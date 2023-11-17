@@ -11,6 +11,7 @@ import com.bsodsoftware.merbackend.jpa.entities.Nivel;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
 import com.bsodsoftware.merbackend.jpa.entities.Red;
+import com.bsodsoftware.merbackend.jpa.entities.SubcategoriaRed;
 import com.bsodsoftware.merbackend.jpa.entities.TareaMatematica;
 import com.bsodsoftware.merbackend.jpa.repository.TareaMatematicaRepository;
 import com.bsodsoftware.merbackend.services.to.TMDTO;
@@ -75,8 +76,11 @@ public class TareaMatematicaService {
 					tmdto.setDescripcionOa(oaHijo.getDescripcion());
 					ObjetivoAprendizaje oaPadre = oaHijo.getObjetivoAprendizaje();
 					tmdto.setCodigoOa(oaPadre.getNombre());
-					for (Red r : oaPadre.getRedes()) {
+					/*for (Red r : oaPadre.getRedes()) {
 						tmdto.addRed(r.getNombre());
+					}*/
+					for (SubcategoriaRed s : oaPadre.getSubcategorias()) {
+						tmdto.addRed(s.getRed().getNombre());
 					}
 					for (Nivel n : oaPadre.getNiveles()) {
 						tmdto.addNivel(n.getNombre());
