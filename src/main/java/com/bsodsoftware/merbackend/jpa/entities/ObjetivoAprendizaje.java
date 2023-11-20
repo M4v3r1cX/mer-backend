@@ -31,13 +31,6 @@ public class ObjetivoAprendizaje implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	/*@ManyToMany
-	@JoinTable(
-		name = "oa_red",
-		joinColumns = @JoinColumn(name = "id_oa"),
-		inverseJoinColumns = @JoinColumn(name  = "id_red"))
-	private List<Red> redes;*/
-	
 	@ManyToMany
 	@JoinTable(
 		name = "oa_subcategoria",
@@ -60,6 +53,13 @@ public class ObjetivoAprendizaje implements Serializable {
 	
 	@OneToMany(mappedBy = "objetivoAprendizaje", fetch = FetchType.LAZY)
 	private List<ObjetivoAprendizajeHijo> hijos;
+	
+	@ManyToMany
+	@JoinTable(
+		name = "orden_oa",
+		joinColumns = @JoinColumn(name = "id_oa_1"),
+		inverseJoinColumns = @JoinColumn(name  = "id_oa_2"))
+	private List<ObjetivoAprendizaje> objetivosAprendizajeUnidos;
 	
 	public Long getId() {
 		return id;
@@ -144,5 +144,20 @@ public class ObjetivoAprendizaje implements Serializable {
 			this.setHijos(new ArrayList<ObjetivoAprendizajeHijo>());
 		}
 		this.getHijos().add(hijo);
+	}
+
+	public List<ObjetivoAprendizaje> getObjetivosAprendizajeUnidos() {
+		return objetivosAprendizajeUnidos;
+	}
+
+	public void setObjetivosAprendizajeUnidos(List<ObjetivoAprendizaje> objetivosAprendizajeUnidos) {
+		this.objetivosAprendizajeUnidos = objetivosAprendizajeUnidos;
+	}
+	
+	public void addObjetivoAprendizajeUnido(ObjetivoAprendizaje objetivoAprendizajeUnido) {
+		if (this.getObjetivosAprendizajeUnidos() == null) {
+			this.setObjetivosAprendizajeUnidos(new ArrayList<ObjetivoAprendizaje>());
+		}
+		this.getObjetivosAprendizajeUnidos().add(objetivoAprendizajeUnido);
 	}
 }
