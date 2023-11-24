@@ -18,6 +18,7 @@ import com.bsodsoftware.merbackend.jpa.entities.Auditoria;
 import com.bsodsoftware.merbackend.services.AuditoriaService;
 import com.bsodsoftware.merbackend.services.ObjetivoAprendizajeService;
 import com.bsodsoftware.merbackend.services.SecurityService;
+import com.bsodsoftware.merbackend.services.to.AsociarOaDTO;
 import com.bsodsoftware.merbackend.services.to.OAResponse;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
@@ -43,6 +44,28 @@ public class OARest {
 			Long idUsuario = securityService.validateToken(token);
 			if (!idUsuario.equals(-1L)) {
 				oaService.guardarOa(oaDto, idUsuario);
+				ret.setCodigo(200);
+			} else {
+				ret.setCodigo(500);
+				ret.setComentario("Usuario de token no encontrado");
+			}
+		} catch (Exception ex) {
+			ret.setCodigo(500);
+			ret.setComentario(ex.getMessage());
+		}
+		
+		return ret;
+	}
+	
+	@PostMapping("/saveAsociarOas")
+	@CrossOrigin
+	@ResponseBody
+	public ResponseDTO guardarAsociarOa(@RequestBody AsociarOaDTO oaDto, @RequestHeader("Authorization") String token) {
+		ResponseDTO ret = new ResponseDTO();
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				oaService.guardarOaAsociacion(oaDto, idUsuario);
 				ret.setCodigo(200);
 			} else {
 				ret.setCodigo(500);

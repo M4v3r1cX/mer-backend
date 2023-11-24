@@ -15,6 +15,7 @@ import com.bsodsoftware.merbackend.jpa.entities.Red;
 import com.bsodsoftware.merbackend.jpa.entities.SubcategoriaRed;
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeHijoRepository;
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeRepository;
+import com.bsodsoftware.merbackend.services.to.AsociarOaDTO;
 import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
@@ -124,6 +125,20 @@ public class ObjetivoAprendizajeService {
 		oa = save(oa);
 		oaHijoRepository.saveAll(oa.getHijos());
 		auditoriaService.guardarAccion(accion, idUsuario, oa.getId());
+	}
+	
+	public void guardarOaAsociacion(AsociarOaDTO dto, Long idUsuario) {
+		ObjetivoAprendizaje oa1 = findOaById(Long.valueOf(dto.getIdOaInicial()));
+		if (oa1 != null) {
+			for (String id : dto.getIdOasFinales()) {
+				ObjetivoAprendizaje oa2 = findOaById(Long.valueOf(id));
+				if (oa2 != null) {
+					oa1.addObjetivoAprendizajeUnido(oa2);
+				}
+			}
+			save(oa1);
+			auditoriaService.guardarAccion(Auditoria.ACCION.ASOCIACION_GUARDAR, idUsuario, oa1.getId());
+		}
 	}
 	
 	public void delete(Long id, Long idUsuario) {
