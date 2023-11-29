@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,14 +32,14 @@ public class ObjetivoAprendizaje implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "oa_subcategoria",
 		joinColumns = @JoinColumn(name = "id_oa"),
 		inverseJoinColumns = @JoinColumn(name  = "id_subcategoria"))
 	private List<SubcategoriaRed> subcategorias;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "oa_nivel",
 		joinColumns = @JoinColumn(name = "id_oa"),
@@ -51,10 +52,10 @@ public class ObjetivoAprendizaje implements Serializable {
 	@Column(name = "id_usuario")
 	private Long idUsuario;
 	
-	@OneToMany(mappedBy = "objetivoAprendizaje", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "objetivoAprendizaje", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ObjetivoAprendizajeHijo> hijos;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "orden_oa",
 		joinColumns = @JoinColumn(name = "id_oa_1"),
@@ -159,5 +160,10 @@ public class ObjetivoAprendizaje implements Serializable {
 			this.setObjetivosAprendizajeUnidos(new ArrayList<ObjetivoAprendizaje>());
 		}
 		this.getObjetivosAprendizajeUnidos().add(objetivoAprendizajeUnido);
+	}
+	
+	public void removeObjetivoAprendizajeUnido(ObjetivoAprendizaje objetivoAprendizajeUnido) {
+		this.objetivosAprendizajeUnidos.remove(objetivoAprendizajeUnido);
+		objetivoAprendizajeUnido.getObjetivosAprendizajeUnidos().remove(this);
 	}
 }

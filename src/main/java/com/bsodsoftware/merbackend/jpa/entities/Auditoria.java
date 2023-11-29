@@ -27,9 +27,8 @@ public class Auditoria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "accion")
-	@Enumerated(EnumType.STRING)
-	private ACCION accion;
+	@Column(name = "accion", length = 256)
+	private String accion;
 	
 	@Column(name = "fecha_hora_evento")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -49,11 +48,11 @@ public class Auditoria implements Serializable {
 		this.id = id;
 	}
 
-	public ACCION getAccion() {
+	public String getAccion() {
 		return accion;
 	}
 
-	public void setAccion(ACCION accion) {
+	public void setAccion(String accion) {
 		this.accion = accion;
 	}
 

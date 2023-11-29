@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bsodsoftware.merbackend.jpa.entities.Auditoria;
+import com.bsodsoftware.merbackend.jpa.entities.Nivel;
+import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
+import com.bsodsoftware.merbackend.jpa.entities.SubcategoriaRed;
 import com.bsodsoftware.merbackend.services.AuditoriaService;
 import com.bsodsoftware.merbackend.services.ObjetivoAprendizajeService;
 import com.bsodsoftware.merbackend.services.SecurityService;
 import com.bsodsoftware.merbackend.services.to.AsociarOaDTO;
 import com.bsodsoftware.merbackend.services.to.OAResponse;
+import com.bsodsoftware.merbackend.services.to.OaAsociacionDTO;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
 import com.bsodsoftware.merbackend.services.to.RedResponse;
@@ -52,6 +56,7 @@ public class OARest {
 		} catch (Exception ex) {
 			ret.setCodigo(500);
 			ret.setComentario(ex.getMessage());
+			ex.printStackTrace();
 		}
 		
 		return ret;
@@ -74,6 +79,7 @@ public class OARest {
 		} catch (Exception ex) {
 			ret.setCodigo(500);
 			ret.setComentario(ex.getMessage());
+			ex.printStackTrace();
 		}
 		
 		return ret;
@@ -103,6 +109,7 @@ public class OARest {
 		} catch (Exception ex) {
 			ret.setCodigo(500);
 			ret.setComentario(ex.getMessage());
+			ex.printStackTrace();
 		}
 		
 		return ret;
@@ -127,6 +134,7 @@ public class OARest {
 		} catch (Exception ex) {
 			ret.setCodigo(500);
 			ret.setComentario(ex.getLocalizedMessage());
+			ex.printStackTrace();
 		}
 		
 		return ret;
@@ -162,6 +170,42 @@ public class OARest {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		return ret;
+	}
+	
+	@GetMapping("getOaAsociaciones")
+	@CrossOrigin
+	@ResponseBody
+	public OaAsociacionDTO getOaAsociaciones(@RequestParam Long id,@RequestHeader("Authorization") String token) {
+		OaAsociacionDTO ret = null;
+		
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ObjetivoAprendizaje oa = oaService.findOaById(id);
+				if (oa!= null) {
+					ret = new OaAsociacionDTO();
+					OaDTO oadto = new OaDTO();
+					oadto.setDescripcion(oa.getDescripcion());
+					oadto.setId(oa.getId() + "");
+					oadto.setCodigo(oa.getNombre());
+					oadto.setPrioridad(oa.isPriorizado());
+					for (SubcategoriaRed s : oa.getSubcategorias()) {
+						oadto.addRed(s.getId() + "");
+					}
+					for (Nivel n : oa.getNiveles()) {
+						oadto.addNivel(n.getId() + "");
+					}
+					ret.setOaDto(oadto);
+					for (ObjetivoAprendizaje oaasociado : oa.getObjetivosAprendizajeUnidos()) {
+						ret.addOasAsociados(oaasociado.getId() + "");
+					}
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return ret;
 	}
 	

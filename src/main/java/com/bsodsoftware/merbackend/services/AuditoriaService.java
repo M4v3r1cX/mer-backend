@@ -16,7 +16,7 @@ public class AuditoriaService {
 	
 	public void guardarAccion(Auditoria.ACCION accion, Long idUsuario, Long idAfectado) {
 		Auditoria auditoria = new Auditoria();
-		auditoria.setAccion(accion);
+		auditoria.setAccion(accion.name());
 		auditoria.setIdUsuario(idUsuario);
 		auditoria.setFechaHoraEvento(new Date());
 		auditoria.setIdAfectado(idAfectado);

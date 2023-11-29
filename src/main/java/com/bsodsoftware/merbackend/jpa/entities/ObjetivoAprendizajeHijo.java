@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,21 +27,14 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	/*@ManyToMany
-	@JoinTable(
-		name = "oa_hijo_red",
-		joinColumns = @JoinColumn(name = "id_oa_hijo"),
-		inverseJoinColumns = @JoinColumn(name  = "id_red"))
-	private List<Red> redes;*/
-	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "oa_hijo_subcategoria",
 		joinColumns = @JoinColumn(name = "id_oa_hijo"),
 		inverseJoinColumns = @JoinColumn(name  = "id_subcategoria"))
 	private List<SubcategoriaRed> subcategorias;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "oa_hijo_nivel",
 		joinColumns = @JoinColumn(name = "id_oa_hijo"),
