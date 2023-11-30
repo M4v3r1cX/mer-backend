@@ -198,7 +198,12 @@ public class OARest {
 					}
 					ret.setOaDto(oadto);
 					for (ObjetivoAprendizaje oaasociado : oa.getObjetivosAprendizajeUnidos()) {
-						ret.addOasAsociados(oaasociado.getId() + "");
+						OaDTO oaadto = new OaDTO();
+						oaadto.setDescripcion(oaasociado.getDescripcion());
+						oaadto.setId(oaasociado.getId() + "");
+						oaadto.setCodigo(oaasociado.getNombre());
+						oaadto.setPrioridad(oaasociado.isPriorizado());
+						ret.addOasAsociados(oaadto);
 					}
 				}
 			}

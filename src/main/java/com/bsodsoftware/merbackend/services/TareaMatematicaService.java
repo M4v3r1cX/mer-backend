@@ -79,7 +79,7 @@ public class TareaMatematicaService {
 					/*for (Red r : oaPadre.getRedes()) {
 						tmdto.addRed(r.getNombre());
 					}*/
-					for (SubcategoriaRed s : oaPadre.getSubcategorias()) {
+					for (SubcategoriaRed s : oaHijo.getSubcategorias()) {
 						tmdto.addRed(s.getRed().getNombre());
 					}
 					for (Nivel n : oaPadre.getNiveles()) {

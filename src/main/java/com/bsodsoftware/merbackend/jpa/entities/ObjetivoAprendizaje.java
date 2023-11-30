@@ -32,14 +32,14 @@ public class ObjetivoAprendizaje implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(
 		name = "oa_subcategoria",
 		joinColumns = @JoinColumn(name = "id_oa"),
 		inverseJoinColumns = @JoinColumn(name  = "id_subcategoria"))
 	private List<SubcategoriaRed> subcategorias;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(
 		name = "oa_nivel",
 		joinColumns = @JoinColumn(name = "id_oa"),
@@ -52,7 +52,7 @@ public class ObjetivoAprendizaje implements Serializable {
 	@Column(name = "id_usuario")
 	private Long idUsuario;
 	
-	@OneToMany(mappedBy = "objetivoAprendizaje", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "objetivoAprendizaje", fetch = FetchType.LAZY)
 	private List<ObjetivoAprendizajeHijo> hijos;
 	
 	@ManyToMany(cascade = CascadeType.ALL)

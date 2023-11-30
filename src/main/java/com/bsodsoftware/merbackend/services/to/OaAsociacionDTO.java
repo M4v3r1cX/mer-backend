@@ -6,7 +6,7 @@ import java.util.List;
 public class OaAsociacionDTO {
 
 	private OaDTO oaDto;
-	private List<String> asociados;
+	private List<OaDTO> asociados;
 	
 	public OaDTO getOaDto() {
 		return oaDto;
@@ -14,15 +14,15 @@ public class OaAsociacionDTO {
 	public void setOaDto(OaDTO oaDto) {
 		this.oaDto = oaDto;
 	}
-	public List<String> getAsociados() {
+	public List<OaDTO> getAsociados() {
 		return asociados;
 	}
-	public void setAsociados(List<String> asociados) {
+	public void setAsociados(List<OaDTO> asociados) {
 		this.asociados = asociados;
 	}
-	public void addOasAsociados(String oa) {
+	public void addOasAsociados(OaDTO oa) {
 		if (this.getAsociados() == null) {
-			this.setAsociados(new ArrayList<String>());
+			this.setAsociados(new ArrayList<OaDTO>());
 		}
 		this.getAsociados().add(oa);
 	}

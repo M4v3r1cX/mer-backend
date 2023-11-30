@@ -27,14 +27,14 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(
 		name = "oa_hijo_subcategoria",
 		joinColumns = @JoinColumn(name = "id_oa_hijo"),
 		inverseJoinColumns = @JoinColumn(name  = "id_subcategoria"))
 	private List<SubcategoriaRed> subcategorias;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(
 		name = "oa_hijo_nivel",
 		joinColumns = @JoinColumn(name = "id_oa_hijo"),
@@ -48,7 +48,7 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@OneToMany(mappedBy = "objetivoAprendizajeHijo", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "objetivoAprendizajeHijo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<TareaMatematica> tareasMatematicas;
 	
 	@Column(name = "priorizado")

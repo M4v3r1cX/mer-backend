@@ -166,12 +166,27 @@ public class ObjetivoAprendizajeService {
 		if (oa != null) {
 			if (oa.getHijos() != null && !oa.getHijos().isEmpty()) {
 				for (ObjetivoAprendizajeHijo oahijo : oa.getHijos()) {
+					oahijo.getNiveles().removeAll(oahijo.getNiveles());
+					save(oahijo);
+					oahijo.getSubcategorias().removeAll(oahijo.getSubcategorias());
+					save(oahijo);
+					
 					oaHijoRepository.delete(oahijo);
 				}
+				oa.getHijos().removeAll(oa.getHijos());
+				save(oa);
 			}
+			oa.getNiveles().removeAll(oa.getNiveles());
+			save(oa);
+			oa.getSubcategorias().removeAll(oa.getSubcategorias());
+			save(oa);
+			oa.getObjetivosAprendizajeUnidos().removeAll(oa.getObjetivosAprendizajeUnidos());
+			save(oa);
+			
+			oaRepository.delete(oa);
+			auditoriaService.guardarAccion(Auditoria.ACCION.OA_ELIMINAR, idUsuario, id);
 		}
-		oaRepository.deleteById(id);
-		auditoriaService.guardarAccion(Auditoria.ACCION.OA_ELIMINAR, idUsuario, id);
+		
 	}
 	
 	public List<OaDTO> getOas() {
