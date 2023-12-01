@@ -85,12 +85,25 @@ public class ObjetivoAprendizajeService {
 			}
 		}
 		
+		if (oadto.getHijosABorrar() != null && !oadto.getHijosABorrar().isEmpty()) {
+			for (String s : oadto.getHijosABorrar()) {
+				ObjetivoAprendizajeHijo oahijo = findOaHijoById(Long.valueOf(s));
+				oa.getHijos().remove(oahijo);
+				save(oa);
+				oahijo.setObjetivoAprendizaje(null);
+				save(oahijo);
+				oaHijoRepository.delete(oahijo);
+			}
+		}
+		
 		if (oadto.getHijos() != null && !oadto.getHijos().isEmpty()) {
 			for (OaHijoDTO oahijodto : oadto.getHijos()) {
 				boolean nuevo = false;
+				boolean hijoPorDefecto = false;
 				ObjetivoAprendizajeHijo oahijo = null;
 				if (oahijodto.getId() != null) {
 					oahijo = findOaHijoById(oahijodto.getId());
+					hijoPorDefecto = true;
 				} else {
 					oahijo = new ObjetivoAprendizajeHijo();
 					nuevo = true;
@@ -98,7 +111,7 @@ public class ObjetivoAprendizajeService {
 				oahijo.setDescripcion(oahijodto.getDescripcion());
 				oahijo.setObjetivoAprendizaje(oa);
 				oahijo.setPriorizado(oahijodto.getPrioridad());
-				oahijo.setHijoPorDefecto(false);
+				oahijo.setHijoPorDefecto(hijoPorDefecto);
 				if (!nuevo) {
 					oahijo.getSubcategorias().removeAll(oahijo.getSubcategorias());
 					oaHijoRepository.saveAndFlush(oahijo);
@@ -112,9 +125,12 @@ public class ObjetivoAprendizajeService {
 					}
 				}
 				if (nuevo) {
+					oahijo.setObjetivoAprendizaje(oa);
+					save(oahijo);
 					oa.addHijo(oahijo);
+					save(oa);
 				} else {
-					oaHijoRepository.saveAndFlush(oahijo);
+					save(oahijo);
 				}
 				
 			}
@@ -136,10 +152,13 @@ public class ObjetivoAprendizajeService {
 					oahijo.addNivel(nivel);
 				}
 			}
+			oahijo.setObjetivoAprendizaje(oa);
+			save(oahijo);
 			oa.addHijo(oahijo);
+			save(oa);
 		}
-		oa = save(oa);
-		oaHijoRepository.saveAll(oa.getHijos());
+		//oa = save(oa);
+		//oaHijoRepository.saveAll(oa.getHijos());
 		auditoriaService.guardarAccion(accion, idUsuario, oa.getId());
 	}
 	
@@ -239,6 +258,7 @@ public class ObjetivoAprendizajeService {
 		ObjetivoAprendizaje oa = oaRepository.getReferenceById(id);
 		if (oa != null) {
 			ret = new OaDTO();
+			ret.setHijosABorrar(new ArrayList<String>());
 			ret.setDescripcion(oa.getDescripcion());
 			ret.setId(oa.getId() + "");
 			ret.setCodigo(oa.getNombre());

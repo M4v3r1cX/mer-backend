@@ -12,6 +12,7 @@ public class OaDTO {
 	private List<String> redes;
 	private List<String> niveles;
 	private List<OaHijoDTO> hijos;
+	private List<String> hijosABorrar;
 	
 	public String getId() {
 		return id;
@@ -72,5 +73,17 @@ public class OaDTO {
 			this.setHijos(new ArrayList<OaHijoDTO>());
 		}
 		this.getHijos().add(hijo);
+	}
+	public List<String> getHijosABorrar() {
+		return hijosABorrar;
+	}
+	public void setHijosABorrar(List<String> hijosABorrar) {
+		this.hijosABorrar = hijosABorrar;
+	}
+	public void addHijoABorrar(String s) {
+		if (this.getHijosABorrar() == null) {
+			this.setHijosABorrar(new ArrayList<String>());
+		}
+		this.getHijosABorrar().add(s);
 	}
 }
