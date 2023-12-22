@@ -125,6 +125,7 @@ public class ObjetivoAprendizajeService {
 					}
 				}
 				if (nuevo) {
+					save(oa);
 					oahijo.setObjetivoAprendizaje(oa);
 					save(oahijo);
 					oa.addHijo(oahijo);
@@ -152,6 +153,7 @@ public class ObjetivoAprendizajeService {
 					oahijo.addNivel(nivel);
 				}
 			}
+			save(oa);
 			oahijo.setObjetivoAprendizaje(oa);
 			save(oahijo);
 			oa.addHijo(oahijo);
