@@ -323,7 +323,7 @@ public class ObjetivoAprendizajeService {
 				for (SubcategoriaRed r : oahijo.getSubcategorias()) {
 					oadto.addRed(r.getRed().getNombre());
 				}
-				for (Nivel n : oahijo.getNiveles()) {
+				for (Nivel n : oa.getNiveles()) {
 					oadto.addNivel(n.getNombre());
 				}
 				ret.add(oadto);
