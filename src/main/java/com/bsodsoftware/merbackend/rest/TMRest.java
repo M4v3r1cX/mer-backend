@@ -127,4 +127,20 @@ public class TMRest {
 		}
 		return ret;
 	}
+	
+	@GetMapping("getOaTMsFiltrar")
+	@CrossOrigin
+	@ResponseBody
+	public List<OaTmDto> getOaTmsFiltrar(@RequestHeader("Authorization") String token, @RequestParam String nivel, @RequestParam String red) {
+		List<OaTmDto> ret = null;
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ret = oaService.getOasTmsFiltrados(nivel, red);
+			}
+		}catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return ret;
+	}
 }
