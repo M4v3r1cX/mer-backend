@@ -112,6 +112,22 @@ public class TMRest {
 		return ret;
 	}
 	
+	@GetMapping("getTMsActividadesFiltrar")
+	@CrossOrigin
+	@ResponseBody
+	public List<TMDTO> getTMsActividadesFiltrar(@RequestHeader("Authorization") String token, @RequestParam String nivel, @RequestParam String red) {
+		List<TMDTO> ret = null;
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ret = tmService.getTmsFiltradas(Long.valueOf(nivel), Long.valueOf(red));
+			}
+		}catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return ret;
+	}
+	
 	@GetMapping("getTm")
 	@CrossOrigin
 	@ResponseBody

@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -45,7 +46,8 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	@JoinColumn(name = "id_objetivo_aprendizaje")
 	private ObjetivoAprendizaje objetivoAprendizaje;
 	
-	@Column(name = "descripcion")
+	@Lob
+	@Column(name = "descripcion", length=512)
 	private String descripcion;
 	
 	@OneToMany(mappedBy = "objetivoAprendizajeHijo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

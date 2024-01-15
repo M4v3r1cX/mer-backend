@@ -76,9 +76,34 @@ public class TareaMatematicaService {
 					tmdto.setDescripcionOa(oaHijo.getDescripcion());
 					ObjetivoAprendizaje oaPadre = oaHijo.getObjetivoAprendizaje();
 					tmdto.setCodigoOa(oaPadre.getNombre());
-					/*for (Red r : oaPadre.getRedes()) {
-						tmdto.addRed(r.getNombre());
-					}*/
+					for (SubcategoriaRed s : oaHijo.getSubcategorias()) {
+						tmdto.addRed(s.getRed().getNombre());
+					}
+					for (Nivel n : oaPadre.getNiveles()) {
+						tmdto.addNivel(n.getNombre());
+					}
+				}
+				ret.add(tmdto);
+			}
+		}
+		return ret;
+	}
+	
+	public List<TMDTO> getTmsFiltradas(Long idNivel, Long idRed) {
+		List<TMDTO> ret = null;
+		List<TareaMatematica> tms = tmRepository.findAllFiltrados(idNivel, idRed);
+		if (tms != null && !tms.isEmpty()) {
+			ret = new ArrayList<TMDTO>();
+			for (TareaMatematica tm : tms) {
+				TMDTO tmdto = new TMDTO();
+				tmdto.setId(tm.getId() + "");
+				tmdto.setDescripcion(tm.getDescripcion());
+				ObjetivoAprendizajeHijo oaHijo = tm.getObjetivoAprendizajeHijo();
+				if (oaHijo != null) {
+					tmdto.setIdOa(oaHijo.getId() + "");
+					tmdto.setDescripcionOa(oaHijo.getDescripcion());
+					ObjetivoAprendizaje oaPadre = oaHijo.getObjetivoAprendizaje();
+					tmdto.setCodigoOa(oaPadre.getNombre());
 					for (SubcategoriaRed s : oaHijo.getSubcategorias()) {
 						tmdto.addRed(s.getRed().getNombre());
 					}
