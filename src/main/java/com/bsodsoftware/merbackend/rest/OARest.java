@@ -22,6 +22,7 @@ import com.bsodsoftware.merbackend.services.AuditoriaService;
 import com.bsodsoftware.merbackend.services.ObjetivoAprendizajeService;
 import com.bsodsoftware.merbackend.services.SecurityService;
 import com.bsodsoftware.merbackend.services.to.AsociarOaDTO;
+import com.bsodsoftware.merbackend.services.to.OAMerRedes;
 import com.bsodsoftware.merbackend.services.to.OAResponse;
 import com.bsodsoftware.merbackend.services.to.OaAsociacionDTO;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
@@ -114,6 +115,14 @@ public class OARest {
 		
 		return ret;
 	}
+	
+	@GetMapping("getOAsWeb")
+	@CrossOrigin
+	@ResponseBody
+	public List<OAMerRedes> getOasByCategoria(@RequestHeader("Authorization") String token, @RequestParam Long idCategoria) {
+		return oaService.getOasByCategoria(idCategoria);
+	}
+	
 	
 	@GetMapping("deleteOa")
 	@CrossOrigin

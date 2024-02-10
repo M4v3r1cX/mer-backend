@@ -17,6 +17,8 @@ import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeHijoReposit
 import com.bsodsoftware.merbackend.jpa.repository.ObjetivoAprendizajeRepository;
 import com.bsodsoftware.merbackend.services.to.AsociarOaDTO;
 import com.bsodsoftware.merbackend.services.to.LibroRedDTO;
+import com.bsodsoftware.merbackend.services.to.OAMerRedes;
+import com.bsodsoftware.merbackend.services.to.OAMerRedesOA;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
 import com.bsodsoftware.merbackend.services.to.OaTmDto;
@@ -234,6 +236,31 @@ public class ObjetivoAprendizajeService {
 				oadto.setPrioridad(oa.isPriorizado());
 				ret.add(oadto);
 			}
+		}
+		
+		return ret;
+	}
+	
+	public List<OAMerRedes> getOasByCategoria(Long idCategoria) {
+		List<OAMerRedes> ret = new ArrayList<OAMerRedes>();
+		// Se hace de a uno pa poder mandar la wea ordenada al front y no dar jugo
+		List<ObjetivoAprendizaje> oas = oaRepository.findOasByNivelAndRed(1L, idCategoria);
+		OAMerRedes oam = new OAMerRedes();
+		oam.setNivel(1L);
+		if (oas != null && !oas.isEmpty()) {
+			for (ObjetivoAprendizaje oa : oas) {
+				OAMerRedesOA oamroa = new OAMerRedesOA();
+				oamroa.setId(oa.getId());
+				oamroa.setDescripcion(oa.getDescripcion());
+				oamroa.setNombre(oa.getNombre());
+				oam.addOa(oamroa);
+			}
+		} else {
+			OAMerRedesOA oamroa = new OAMerRedesOA();
+			oamroa.setId(0L);
+			oamroa.setDescripcion("Nivel no cuenta con OAs registrados");
+			oamroa.setNombre("");
+			oam.addOa(oamroa);
 		}
 		
 		return ret;
