@@ -405,4 +405,8 @@ public class ObjetivoAprendizajeService {
 		
 		return ret;
 	}
+	
+	public List<ObjetivoAprendizaje> findObjetivosByRed(Long id) {
+		
+	}
 }
