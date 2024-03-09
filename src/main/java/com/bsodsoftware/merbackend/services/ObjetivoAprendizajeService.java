@@ -407,6 +407,6 @@ public class ObjetivoAprendizajeService {
 	}
 	
 	public List<ObjetivoAprendizaje> findObjetivosByRed(Long id) {
-		
+		return oaRepository.findOasByRed(id);
 	}
 }
