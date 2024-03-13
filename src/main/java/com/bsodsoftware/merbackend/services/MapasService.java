@@ -18,7 +18,7 @@ public class MapasService {
 	public List<MapaOADTO> getOasByRed(Long id) {
 		List<MapaOADTO> ret = null;
 		List<ObjetivoAprendizaje> oas = objetivoAprendizajeService.findObjetivosByRed(id);
-		if (oas != null && oas.isEmpty()) {
+		if (oas != null && !oas.isEmpty()) {
 			ret = new ArrayList<MapaOADTO>();
 			for (ObjetivoAprendizaje oa : oas) {
 				MapaOADTO mapa = new MapaOADTO();
