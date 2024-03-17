@@ -27,4 +27,11 @@ public class MapasRest {
 	public List<MapaOADTO> getOAS(@RequestParam Long id) {
 		return mapasService.getOasByRed(id);
 	}
+	
+	@GetMapping("/getOasHijosByRed")
+	@CrossOrigin
+	@ResponseBody
+	public List<MapaOADTO> getOASHijos(@RequestParam Long id) {
+		return mapasService.getOasHijosByRed(id);
+	}
 }

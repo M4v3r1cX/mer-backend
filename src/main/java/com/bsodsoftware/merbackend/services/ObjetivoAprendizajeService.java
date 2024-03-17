@@ -282,22 +282,6 @@ public class ObjetivoAprendizajeService {
 		return ret;
 	}
 	
-	public List<OaTmDto> getOasTmsFiltrados(String nivel, String red) {
-		List<OaTmDto> ret = null;
-		List<ObjetivoAprendizajeHijo> oas = oaHijoRepository.findAllFiltrados(Long.valueOf(nivel), Long.valueOf(red));
-		if (oas != null && !oas.isEmpty()) {
-			ret = new ArrayList<OaTmDto>();
-			for (ObjetivoAprendizajeHijo oa : oas) {
-				OaTmDto otd = new OaTmDto();
-				otd.setId(oa.getId() + "");
-				otd.setCodigo(oa.getObjetivoAprendizaje().getNombre());
-				otd.setDescripcion(oa.getDescripcion());
-				ret.add(otd);
-			}
-		}
-		return ret;
-	}
-	
 	public OaDTO getOa(Long id) {
 		OaDTO ret = null;
 		ObjetivoAprendizaje oa = oaRepository.getReferenceById(id);
@@ -408,5 +392,9 @@ public class ObjetivoAprendizajeService {
 	
 	public List<ObjetivoAprendizaje> findObjetivosByRed(Long id) {
 		return oaRepository.findOasByRed(id);
+	}
+	
+	public List<ObjetivoAprendizajeHijo> findObjetivosHijosByRed(Long id) {
+		return oaHijoRepository.findOaHijosByRed(id);
 	}
 }
