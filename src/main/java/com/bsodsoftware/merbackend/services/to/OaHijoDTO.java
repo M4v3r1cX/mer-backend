@@ -9,6 +9,9 @@ public class OaHijoDTO {
 	private List<String> redes;
 	private List<String> niveles;
 	private Boolean prioridad;
+	private String x;
+	private String y;
+	private Boolean tieneCoordenadas;
 	
 	public String getDescripcion() {
 		return descripcion;
@@ -51,5 +54,23 @@ public class OaHijoDTO {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getX() {
+		return x;
+	}
+	public void setX(String x) {
+		this.x = x;
+	}
+	public String getY() {
+		return y;
+	}
+	public void setY(String y) {
+		this.y = y;
+	}
+	public Boolean getTieneCoordenadas() {
+		return tieneCoordenadas;
+	}
+	public void setTieneCoordenadas(Boolean tieneCoordenadas) {
+		this.tieneCoordenadas = tieneCoordenadas;
 	}
 }

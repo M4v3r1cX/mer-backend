@@ -20,6 +20,7 @@ import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
 import com.bsodsoftware.merbackend.jpa.entities.SubcategoriaRed;
 import com.bsodsoftware.merbackend.services.AuditoriaService;
 import com.bsodsoftware.merbackend.services.ObjetivoAprendizajeService;
+import com.bsodsoftware.merbackend.services.PosicionOAService;
 import com.bsodsoftware.merbackend.services.SecurityService;
 import com.bsodsoftware.merbackend.services.to.AsociarOaDTO;
 import com.bsodsoftware.merbackend.services.to.OAMerRedes;
@@ -27,6 +28,7 @@ import com.bsodsoftware.merbackend.services.to.OAResponse;
 import com.bsodsoftware.merbackend.services.to.OaAsociacionDTO;
 import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
+import com.bsodsoftware.merbackend.services.to.PosicionOADTO;
 import com.bsodsoftware.merbackend.services.to.RedResponse;
 import com.bsodsoftware.merbackend.services.to.ResponseDTO;
 
@@ -36,6 +38,9 @@ public class OARest {
 	
 	@Autowired
 	private ObjetivoAprendizajeService oaService;
+	
+	@Autowired
+	private PosicionOAService posicionOaService;
 	
 	@Autowired
 	private SecurityService securityService;
@@ -236,6 +241,46 @@ public class OARest {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		return ret;
+	}
+	
+	@GetMapping("getHijo")	// Venga mijito
+	@CrossOrigin
+	@ResponseBody
+	public OaHijoDTO getHijo(@RequestParam Long id, @RequestHeader("Authorization") String token) {
+		OaHijoDTO ret = null;
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ret = oaService.getHijo(id);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return ret;
+	}
+	
+	@PostMapping("savePosicion")
+	@CrossOrigin
+	@ResponseBody
+	public ResponseDTO guardarPosicionOA(@RequestBody PosicionOADTO posicionOaDTO, @RequestHeader("Authorization") String token) {
+		ResponseDTO ret = new ResponseDTO();
+		
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ret = posicionOaService.guardarPosicion(posicionOaDTO);
+			} else {
+				ret.setCodigo(500);
+				ret.setComentario("Usuario de token no encontrado");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			ret.setCodigo(500);
+			ret.setComentario("Error al intentar procesar solicitud: " + ex.getMessage());
+		}
+		
 		return ret;
 	}
 }

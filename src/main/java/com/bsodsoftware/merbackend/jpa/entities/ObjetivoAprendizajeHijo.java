@@ -17,6 +17,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -58,6 +59,9 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 	
 	@Column(name = "hijo_por_defecto")
 	private Boolean hijoPorDefecto;
+	
+	@OneToOne(mappedBy = "objetivoAprendizajeHijo")
+	private PosicionOA posicionOa;
 
 	public List<TareaMatematica> getTareasMatematicas() {
 		return tareasMatematicas;
@@ -146,5 +150,13 @@ public class ObjetivoAprendizajeHijo implements Serializable {
 
 	public void setHijoPorDefecto(Boolean hijoPorDefecto) {
 		this.hijoPorDefecto = hijoPorDefecto;
+	}
+
+	public PosicionOA getPosicionOa() {
+		return posicionOa;
+	}
+
+	public void setPosicionOa(PosicionOA posicionOa) {
+		this.posicionOa = posicionOa;
 	}
 }

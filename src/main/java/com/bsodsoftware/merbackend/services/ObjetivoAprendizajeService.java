@@ -283,10 +283,39 @@ public class ObjetivoAprendizajeService {
 	}
 	
 	public OaDTO getOa(Long id) {
-		OaDTO ret = null;
+		OaDTO oadto = null;
 		ObjetivoAprendizaje oa = oaRepository.getReferenceById(id);
 		if (oa != null) {
-			ret = new OaDTO();
+			oadto = new OaDTO();
+			oadto.setId(oa.getId() + "");
+			for (ObjetivoAprendizajeHijo oahijo : oa.getHijos()) {
+				for (SubcategoriaRed s : oahijo.getSubcategorias()) {
+					Red r = s.getRed();
+					if (oadto.getRedes() == null || !oadto.getRedes().contains(r.getNombre())) {
+						oadto.addRed(r.getNombre());
+					}
+				}
+			}
+			for (Nivel n : oa.getNiveles()) {
+				oadto.addNivel(n.getNombre());
+			}
+			oadto.setCodigo(oa.getNombre());
+			oadto.setDescripcion(oa.getDescripcion());
+			oadto.setPrioridad(oa.isPriorizado());
+			for (ObjetivoAprendizajeHijo oah : oa.getHijos()) {
+				OaHijoDTO otd = new OaHijoDTO();
+				otd.setId(oah.getId());
+				otd.setDescripcion(oah.getDescripcion());
+				otd.setPrioridad(oah.isPriorizado());
+				for (SubcategoriaRed r : oah.getSubcategorias()) {
+					otd.addRed(r.getId() + "");
+				}
+				for (Nivel n : oah.getNiveles()) {
+					otd.addNivel(n.getNombre());
+				}
+				oadto.addHijo(otd);
+			}
+			/*ret = new OaDTO();
 			ret.setHijosABorrar(new ArrayList<String>());
 			ret.setDescripcion(oa.getDescripcion());
 			ret.setId(oa.getId() + "");
@@ -310,9 +339,9 @@ public class ObjetivoAprendizajeService {
 					otd.addNivel(n.getNombre());
 				}
 				ret.addHijo(otd);
-			}
+			}*/
 		}
-		return ret;
+		return oadto;
 	}
 	
 	public ObjetivoAprendizaje findOaById(Long id) {
@@ -345,6 +374,7 @@ public class ObjetivoAprendizajeService {
 			ret = new ArrayList<OaHijoDTO>();
 			for (ObjetivoAprendizajeHijo oahijo : oa.getHijos()) {
 				OaHijoDTO oadto = new OaHijoDTO();
+				oadto.setId(oahijo.getId());
 				oadto.setDescripcion(oahijo.getDescripcion());
 				oadto.setPrioridad(oahijo.isPriorizado() != null ? oahijo.isPriorizado() : false);
 				for (SubcategoriaRed r : oahijo.getSubcategorias()) {
@@ -353,10 +383,42 @@ public class ObjetivoAprendizajeService {
 				for (Nivel n : oa.getNiveles()) {
 					oadto.addNivel(n.getNombre());
 				}
+				if (oahijo.getPosicionOa() != null) {
+					oadto.setX(oahijo.getPosicionOa().getX());
+					oadto.setY(oahijo.getPosicionOa().getY());
+					oadto.setTieneCoordenadas(true);
+				}
 				ret.add(oadto);
 			}
 		}
 		
+		return ret;
+	}
+	
+	public OaHijoDTO getHijo(Long id) {
+		OaHijoDTO ret = null;
+		ObjetivoAprendizajeHijo oaHijo = findOaHijoById(id);
+		if (oaHijo != null) {
+			ret = new OaHijoDTO();
+			ret.setId(oaHijo.getId());
+			ret.setDescripcion(oaHijo.getDescripcion());
+			ret.setPrioridad(oaHijo.getPriorizado());
+			List<String> niveles = new ArrayList<String>();
+			for (Nivel n : oaHijo.getNiveles()) {
+				niveles.add(n.getNombre());
+			}
+			ret.setNiveles(niveles);
+			List<String> redes = new ArrayList<String>();
+			for (SubcategoriaRed s : oaHijo.getSubcategorias()) {
+				redes.add(s.getRed().getId() + "");
+			}
+			if (oaHijo.getPosicionOa() != null) {
+				ret.setX(oaHijo.getPosicionOa().getX());
+				ret.setY(oaHijo.getPosicionOa().getY());
+				ret.setTieneCoordenadas(true);
+			}
+			ret.setRedes(redes);
+		}
 		return ret;
 	}
 	
