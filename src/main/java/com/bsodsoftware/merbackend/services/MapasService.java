@@ -54,6 +54,11 @@ public class MapasService {
 				}
 				mapa.setIdNivel(nivel);
 				mapa.setIdSubcategoria(oa.getSubcategorias().get(0).getId());
+				if (oa.getPosicionOa() != null) {
+					mapa.setX(oa.getPosicionOa().getX());
+					mapa.setY(oa.getPosicionOa().getY());
+					mapa.setTienePosicionamiento(true);
+				}
 				ret.add(mapa);
 			}
 		}

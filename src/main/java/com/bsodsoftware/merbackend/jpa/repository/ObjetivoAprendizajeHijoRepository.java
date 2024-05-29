@@ -11,8 +11,10 @@ import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
 public interface ObjetivoAprendizajeHijoRepository extends JpaRepository<ObjetivoAprendizajeHijo, Long> {
 
 	@Query(value="select h from ObjetivoAprendizajeHijo h "
+			+ "join h.posicionOa po "
 			+ "join h.subcategorias s "
 			+ "join s.red r "
-			+ "where r.id = :idRed")
+			+ "where r.id = :idRed "
+			+ "and po is not null")
 public List<ObjetivoAprendizajeHijo> findOaHijosByRed(Long idRed);
 }

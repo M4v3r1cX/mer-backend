@@ -8,6 +8,9 @@ public class MapaOADTO {
 	private Boolean prioridad;
 	private Long idNivel;
 	private Long idSubcategoria;
+	private Boolean tienePosicionamiento;
+	private String x;
+	private String y;
 	
 	public String getId() {
 		return id;
@@ -44,5 +47,23 @@ public class MapaOADTO {
 	}
 	public void setIdSubcategoria(Long idSubcategoria) {
 		this.idSubcategoria = idSubcategoria;
+	}
+	public Boolean getTienePosicionamiento() {
+		return tienePosicionamiento;
+	}
+	public void setTienePosicionamiento(Boolean tienePosicionamiento) {
+		this.tienePosicionamiento = tienePosicionamiento;
+	}
+	public String getX() {
+		return x;
+	}
+	public void setX(String x) {
+		this.x = x;
+	}
+	public String getY() {
+		return y;
+	}
+	public void setY(String y) {
+		this.y = y;
 	}
 }
