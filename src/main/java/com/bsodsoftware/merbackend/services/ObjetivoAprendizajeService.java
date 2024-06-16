@@ -23,6 +23,7 @@ import com.bsodsoftware.merbackend.services.to.OaDTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
 import com.bsodsoftware.merbackend.services.to.OaTmDto;
 import com.bsodsoftware.merbackend.services.to.RedResponse;
+import com.bsodsoftware.merbackend.services.to.ResponseDTO;
 import com.bsodsoftware.merbackend.services.to.SubcategoriaDTO;
 
 @Service
@@ -458,5 +459,23 @@ public class ObjetivoAprendizajeService {
 	
 	public List<ObjetivoAprendizajeHijo> findObjetivosHijosByRed(Long id) {
 		return oaHijoRepository.findOaHijosByRed(id);
+	}
+	
+	public ResponseDTO updateTextoHijo(Long id, String textoHijo) {
+		ResponseDTO ret = new ResponseDTO();
+		
+		Optional<ObjetivoAprendizajeHijo> oaHijoOpcional = oaHijoRepository.findById(id);
+		ObjetivoAprendizajeHijo oaHijo = oaHijoOpcional.get();
+		if (oaHijo != null) {
+			oaHijo.setDescripcion(textoHijo);
+			this.oaHijoRepository.save(oaHijo);
+			ret.setCodigo(200);
+			ret.setComentario("Texto Hijo Guardado Correctamente");
+		} else {
+			ret.setCodigo(500);
+			ret.setComentario("OAHijo id " + id + " no encontrado.");
+		}
+		
+		return ret;
 	}
 }

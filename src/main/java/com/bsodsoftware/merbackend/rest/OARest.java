@@ -31,6 +31,7 @@ import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
 import com.bsodsoftware.merbackend.services.to.PosicionOADTO;
 import com.bsodsoftware.merbackend.services.to.RedResponse;
 import com.bsodsoftware.merbackend.services.to.ResponseDTO;
+import com.bsodsoftware.merbackend.services.to.UpdateTextoHijoDTO;
 
 @RestController
 @RequestMapping("/oa")
@@ -271,6 +272,29 @@ public class OARest {
 			Long idUsuario = securityService.validateToken(token);
 			if (!idUsuario.equals(-1L)) {
 				ret = posicionOaService.guardarPosicion(posicionOaDTO);
+			} else {
+				ret.setCodigo(500);
+				ret.setComentario("Usuario de token no encontrado");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			ret.setCodigo(500);
+			ret.setComentario("Error al intentar procesar solicitud: " + ex.getMessage());
+		}
+		
+		return ret;
+	}
+	
+	@PostMapping("updateTextoHijo")
+	@CrossOrigin
+	@ResponseBody
+	public ResponseDTO updateTextoHijo(@RequestBody UpdateTextoHijoDTO updateTextoHijoDTO, @RequestHeader("Authorization") String token) {
+		ResponseDTO ret = new ResponseDTO();
+		
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				ret = oaService.updateTextoHijo(updateTextoHijoDTO.getId(), updateTextoHijoDTO.getTexto());
 			} else {
 				ret.setCodigo(500);
 				ret.setComentario("Usuario de token no encontrado");
