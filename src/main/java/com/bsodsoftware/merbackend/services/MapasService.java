@@ -8,13 +8,19 @@ import org.springframework.stereotype.Service;
 
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
+import com.bsodsoftware.merbackend.jpa.entities.TareaMatematica;
 import com.bsodsoftware.merbackend.services.to.MapaOADTO;
+import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
+import com.bsodsoftware.merbackend.services.to.TMDTO;
 
 @Service
 public class MapasService {
 	
 	@Autowired
 	ObjetivoAprendizajeService objetivoAprendizajeService;
+	
+	@Autowired
+	TareaMatematicaService tareaMatematicaService;
 
 	public List<MapaOADTO> getOasByRed(Long id) {
 		List<MapaOADTO> ret = null;
@@ -63,6 +69,14 @@ public class MapasService {
 			}
 		}
 		return ret;
+	}
+
+	public List<OaHijoDTO> getHijos(Long id) {
+		return objetivoAprendizajeService.getHijos(id);
+	}
+	
+	public List<TMDTO> getTareasMatematicasByIdOaHijo(Long idOaHijo) {
+		return tareaMatematicaService.getTareasMatematicasByOaHijvo(idOaHijo);
 	}
 
 }

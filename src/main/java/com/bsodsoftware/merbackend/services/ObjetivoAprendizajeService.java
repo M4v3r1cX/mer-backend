@@ -316,31 +316,6 @@ public class ObjetivoAprendizajeService {
 				}
 				oadto.addHijo(otd);
 			}
-			/*ret = new OaDTO();
-			ret.setHijosABorrar(new ArrayList<String>());
-			ret.setDescripcion(oa.getDescripcion());
-			ret.setId(oa.getId() + "");
-			ret.setCodigo(oa.getNombre());
-			ret.setPrioridad(oa.isPriorizado());
-			for (SubcategoriaRed s : oa.getSubcategorias()) {
-				ret.addRed(s.getId() + "");
-			}
-			for (Nivel n : oa.getNiveles()) {
-				ret.addNivel(n.getId() + "");
-			}
-			for (ObjetivoAprendizajeHijo oah : oa.getHijos()) {
-				OaHijoDTO otd = new OaHijoDTO();
-				otd.setId(oah.getId());
-				otd.setDescripcion(oah.getDescripcion());
-				otd.setPrioridad(oah.isPriorizado());
-				for (SubcategoriaRed r : oah.getSubcategorias()) {
-					otd.addRed(r.getId() + "");
-				}
-				for (Nivel n : oah.getNiveles()) {
-					otd.addNivel(n.getNombre());
-				}
-				ret.addHijo(otd);
-			}*/
 		}
 		return oadto;
 	}

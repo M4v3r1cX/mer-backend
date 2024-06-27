@@ -137,4 +137,24 @@ public class TareaMatematicaService {
 		}
 		return ret;
 	}
+	
+	public List<TMDTO> getTareasMatematicasByOaHijvo(Long idOaHijo) {
+		List<TMDTO> ret = null;
+		
+		ObjetivoAprendizajeHijo oaHijo = oaService.findOaHijoById(idOaHijo);
+		if (oaHijo != null) {
+			List<TareaMatematica> tms = oaHijo.getTareasMatematicas();
+			if (tms != null && !tms.isEmpty()) {
+				ret = new ArrayList<TMDTO>();
+				for (TareaMatematica tm : tms) {
+					TMDTO tmdto = new TMDTO();
+					tmdto.setId(tm.getId() + "");
+					tmdto.setDescripcion(tm.getDescripcion());
+					ret.add(tmdto);
+				}
+			}
+		}
+		
+		return ret;
+	}
 }
