@@ -184,4 +184,29 @@ public class ActividadMerService {
 		
 		return path;
 	}
+	
+	public List<ActividadMerListaDto> getActividadesByIdTareaMatematica(Long id) {
+		List<ActividadMerListaDto> ret = null;
+		List<ActividadMer> act = actividadMerRepository.findActividadesByTareaMatematica(id);
+		if (act != null && !act.isEmpty()) {
+			ret = new ArrayList<ActividadMerListaDto>();
+			for (ActividadMer a : act) {
+				ActividadMerListaDto ldto = new ActividadMerListaDto();
+				ldto.setId(a.getId());
+				ldto.setNombre(a.getNombre());
+				ldto.setLibro(a.getLibro().getNombre());
+				ldto.setTm("TM-" + a.getTareaMatematica().getId());
+				ldto.setOa(a.getTareaMatematica().getObjetivoAprendizajeHijo().getObjetivoAprendizaje().getNombre());
+				for (Nivel n : a.getTareaMatematica().getObjetivoAprendizajeHijo().getNiveles()) {
+					ldto.addNivel(n.getNombre());
+				}
+				for (SubcategoriaRed r : a.getTareaMatematica().getObjetivoAprendizajeHijo().getSubcategorias()) {
+					ldto.addRed(r.getRed().getNombre());
+				}
+				ret.add(ldto);
+			}
+		}
+		
+		return ret;
+	}
 }

@@ -16,5 +16,5 @@ public interface ObjetivoAprendizajeHijoRepository extends JpaRepository<Objetiv
 			+ "join s.red r "
 			+ "where r.id = :idRed "
 			+ "and po is not null")
-public List<ObjetivoAprendizajeHijo> findOaHijosByRed(Long idRed);
+	public List<ObjetivoAprendizajeHijo> findOaHijosByRed(Long idRed);
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bsodsoftware.merbackend.jpa.entities.TareaMatematica;
 import com.bsodsoftware.merbackend.services.MapasService;
+import com.bsodsoftware.merbackend.services.to.ActividadMerListaDto;
 import com.bsodsoftware.merbackend.services.to.MapaOADTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
 import com.bsodsoftware.merbackend.services.to.TMDTO;
@@ -59,6 +60,19 @@ public class MapasRest {
 		List<TMDTO> ret = null;
 		try {
 			ret = mapasService.getTareasMatematicasByIdOaHijo(id);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return ret;
+	}
+	
+	@GetMapping("/getActividadesByTareaMatematica")
+	@CrossOrigin
+	@ResponseBody
+	public List<ActividadMerListaDto> getActividadesByIdTareaMatematica(@RequestParam Long id) {
+		List<ActividadMerListaDto> ret = null;
+		try {
+			ret = mapasService.getActividadesByTareaMatematica(id);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
