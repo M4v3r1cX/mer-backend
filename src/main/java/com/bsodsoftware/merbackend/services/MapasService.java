@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizaje;
 import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
 import com.bsodsoftware.merbackend.jpa.entities.TareaMatematica;
+import com.bsodsoftware.merbackend.services.to.ActividadMerDTO;
 import com.bsodsoftware.merbackend.services.to.ActividadMerListaDto;
 import com.bsodsoftware.merbackend.services.to.MapaOADTO;
 import com.bsodsoftware.merbackend.services.to.OaHijoDTO;
@@ -83,7 +84,7 @@ public class MapasService {
 		return tareaMatematicaService.getTareasMatematicasByOaHijvo(idOaHijo);
 	}
 	
-	public List<ActividadMerListaDto> getActividadesByTareaMatematica(Long idTareaMatematica) {
+	public List<ActividadMerDTO> getActividadesByTareaMatematica(Long idTareaMatematica) {
 		return actividadMerService.getActividadesByIdTareaMatematica(idTareaMatematica);
 	}
 

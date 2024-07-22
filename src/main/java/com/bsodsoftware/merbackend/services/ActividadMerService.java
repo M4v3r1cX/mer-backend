@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.convert.DtoInstantiatingConverter;
 import org.springframework.stereotype.Service;
 
 import com.bsodsoftware.merbackend.jpa.entities.ActividadMer;
@@ -185,25 +186,21 @@ public class ActividadMerService {
 		return path;
 	}
 	
-	public List<ActividadMerListaDto> getActividadesByIdTareaMatematica(Long id) {
-		List<ActividadMerListaDto> ret = null;
+	public List<ActividadMerDTO> getActividadesByIdTareaMatematica(Long id) {
+		List<ActividadMerDTO> ret = null;
 		List<ActividadMer> act = actividadMerRepository.findActividadesByTareaMatematica(id);
 		if (act != null && !act.isEmpty()) {
-			ret = new ArrayList<ActividadMerListaDto>();
+			ret = new ArrayList<ActividadMerDTO>();
 			for (ActividadMer a : act) {
-				ActividadMerListaDto ldto = new ActividadMerListaDto();
-				ldto.setId(a.getId());
-				ldto.setNombre(a.getNombre());
-				ldto.setLibro(a.getLibro().getNombre());
-				ldto.setTm("TM-" + a.getTareaMatematica().getId());
-				ldto.setOa(a.getTareaMatematica().getObjetivoAprendizajeHijo().getObjetivoAprendizaje().getNombre());
-				for (Nivel n : a.getTareaMatematica().getObjetivoAprendizajeHijo().getNiveles()) {
-					ldto.addNivel(n.getNombre());
-				}
-				for (SubcategoriaRed r : a.getTareaMatematica().getObjetivoAprendizajeHijo().getSubcategorias()) {
-					ldto.addRed(r.getRed().getNombre());
-				}
-				ret.add(ldto);
+				ActividadMerDTO dto = new ActividadMerDTO();
+				dto.setDescripcionActividad(a.getDescripcionActividad());
+				dto.setId(a.getId() + "");
+				dto.setIdLibro(a.getLibro().getId() + "");
+				dto.setImagenReferencia("data:image/jpg;base64," + getImagenB64(a.getImagenReferencia()));
+				dto.setLinkReferencia(a.getLinkReferencia());
+				dto.setNombre(a.getNombre());
+				dto.setUbicacionEnLibro(a.getUbicacionEnLibro());
+				ret.add(dto);
 			}
 		}
 		

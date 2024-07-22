@@ -10,6 +10,7 @@ public class ActividadMerListaDto {
 	private String libro;
 	private String tm;
 	private String oa;
+	private String descripcionActividad;
 	private List<String> redes;
 	private List<String> niveles;
 	
@@ -67,4 +68,11 @@ public class ActividadMerListaDto {
 		}
 		this.getNiveles().add(n);
 	}
+	public String getDescripcionActividad() {
+		return descripcionActividad;
+	}
+	public void setDescripcionActividad(String descripcionActividad) {
+		this.descripcionActividad = descripcionActividad;
+	}
+	
 }
