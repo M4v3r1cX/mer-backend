@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bsodsoftware.merbackend.jpa.entities.Auditoria;
+import com.bsodsoftware.merbackend.jpa.entities.Perfil;
 import com.bsodsoftware.merbackend.jpa.entities.Usuario;
 import com.bsodsoftware.merbackend.jpa.repository.UsuarioRepository;
 import com.bsodsoftware.merbackend.services.to.RegisterDTO;
@@ -32,6 +33,9 @@ public class UsuarioService {
 	
 	@Autowired
 	AuditoriaService auditoriaService;
+	
+	@Autowired
+	PerfilService perfilService;
 	
 	public Usuario save(Usuario entity) {
 		return usuarioRepository.save(entity);
@@ -58,6 +62,10 @@ public class UsuarioService {
 			usuario.setFechaCreacion(new Date());
 			usuario.setPassword(bcrypt.encode(usuarioDto.getPassword()));
 			usuario.setNombre(usuarioDto.getNombre());
+			if (usuarioDto.getAdministrador()) {
+				usuario.addPerfil(perfilService.getPerfilAdministrador());
+			}
+			usuario.addPerfil(perfilService.getPerfilRedes());
 			
 			save(usuario);
 			ret = true;
@@ -75,11 +83,17 @@ public class UsuarioService {
 		if (usuario != null) {
 			if (bcrypt.matches(passwd, usuario.getPassword())) {
 				System.out.println("Usuario loggeado correctamente.");
+				String perfiles = "";
+				for (Perfil p : usuario.getPerfiles()) {
+					perfiles += p.getId() + ",";
+				}
+				perfiles = perfiles.substring(0, perfiles.length() - 1);
 				//SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 				token = Jwts.builder()
 						.claim("name", usuario.getNombre())
 						.claim("mail", username)
 						.claim("id", usuario.getId())
+						.claim("perfiles", perfiles)
 						.setSubject(usuario.getNombre())
 						.setId(UUID.randomUUID().toString())
 						.setIssuedAt(Date.from(Instant.now()))

@@ -1,13 +1,18 @@
 package com.bsodsoftware.merbackend.jpa.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -33,6 +38,14 @@ public class Usuario implements Serializable {
 	
 	@Column(name = "email")
 	private String email;
+	
+	@ManyToMany
+	@JoinTable(
+		name = "usuario_perfil",
+		joinColumns = @JoinColumn(name = "id_usuario"),
+		inverseJoinColumns = @JoinColumn(name  = "id_perfil"))
+	private List<Perfil> perfiles;
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,5 +84,20 @@ public class Usuario implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Perfil> getPerfiles() {
+		return perfiles;
+	}
+
+	public void setPerfiles(List<Perfil> perfiles) {
+		this.perfiles = perfiles;
+	}
+	
+	public void addPerfil(Perfil perfil) {
+		if (this.getPerfiles() == null) {
+			this.setPerfiles(new ArrayList<Perfil>());
+		}
+		this.getPerfiles().add(perfil);
 	}
 }
