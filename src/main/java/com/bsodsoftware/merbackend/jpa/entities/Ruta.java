@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -32,6 +33,10 @@ public class Ruta {
 		joinColumns = @JoinColumn(name = "id_ruta"),
 		inverseJoinColumns = @JoinColumn(name  = "id_actividad_mer"))
 	private List<ActividadMer> puntosRuta;
+	
+	@ManyToOne
+	@JoinColumn(name="id_usuario")
+	private Usuario usuario;
 
 	public Long getId() {
 		return id;
@@ -62,5 +67,13 @@ public class Ruta {
 			this.setPuntosRuta(new ArrayList<ActividadMer>());
 		}
 		this.getPuntosRuta().add(actividadMer);
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

@@ -134,18 +134,27 @@ public class ActividadMerService {
 		ActividadMerDTO ret = null;
 		ActividadMer amer = actividadMerRepository.getReferenceById(id);
 		if (amer != null) {
-			ret = new ActividadMerDTO();
-			ret.setDescripcionActividad(amer.getDescripcionActividad());
-			ret.setIdLibro(amer.getLibro().getId()  + "");
-			ret.setIdUsuarioCarga(amer.getIdUsuarioCarga() + "");
-			ret.setLinkReferencia(amer.getLinkReferencia());
-			ret.setNombre(amer.getNombre());
-			ret.setUbicacionEnLibro(amer.getUbicacionEnLibro());
-			ret.setId(amer.getId() + "");
-			ret.setIdTm(amer.getTareaMatematica().getId() + "");
-			ret.setImagenReferencia(getImagenB64(amer.getImagenReferencia()));
+			ret = actividadToDto(amer);
 		}
 		return ret;
+	}
+	
+	public ActividadMerDTO actividadToDto(ActividadMer amer) {
+		ActividadMerDTO ret = new ActividadMerDTO();
+		ret.setDescripcionActividad(amer.getDescripcionActividad());
+		ret.setIdLibro(amer.getLibro().getId()  + "");
+		ret.setIdUsuarioCarga(amer.getIdUsuarioCarga() + "");
+		ret.setLinkReferencia(amer.getLinkReferencia());
+		ret.setNombre(amer.getNombre());
+		ret.setUbicacionEnLibro(amer.getUbicacionEnLibro());
+		ret.setId(amer.getId() + "");
+		ret.setIdTm(amer.getTareaMatematica().getId() + "");
+		ret.setImagenReferencia("data:image/jpg;base64," + getImagenB64(amer.getImagenReferencia()));
+		return ret;
+	}
+	
+	public ActividadMer getActividadEntidad(Long id) {
+		return actividadMerRepository.getReferenceById(id);
 	}
 	
 	private String getImagenB64(String imagenReferencia) {
@@ -192,15 +201,7 @@ public class ActividadMerService {
 		if (act != null && !act.isEmpty()) {
 			ret = new ArrayList<ActividadMerDTO>();
 			for (ActividadMer a : act) {
-				ActividadMerDTO dto = new ActividadMerDTO();
-				dto.setDescripcionActividad(a.getDescripcionActividad());
-				dto.setId(a.getId() + "");
-				dto.setIdLibro(a.getLibro().getId() + "");
-				dto.setImagenReferencia("data:image/jpg;base64," + getImagenB64(a.getImagenReferencia()));
-				dto.setLinkReferencia(a.getLinkReferencia());
-				dto.setNombre(a.getNombre());
-				dto.setUbicacionEnLibro(a.getUbicacionEnLibro());
-				ret.add(dto);
+				ret.add(actividadToDto(a));
 			}
 		}
 		
