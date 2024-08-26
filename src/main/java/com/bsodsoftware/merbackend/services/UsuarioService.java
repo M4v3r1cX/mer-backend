@@ -87,8 +87,9 @@ public class UsuarioService {
 				for (Perfil p : usuario.getPerfiles()) {
 					perfiles += p.getId() + ",";
 				}
-				perfiles = perfiles.substring(0, perfiles.length() - 1);
-				//SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+				if (!perfiles.isEmpty()) {
+					perfiles = perfiles.substring(0, perfiles.length() - 1);
+				}
 				token = Jwts.builder()
 						.claim("name", usuario.getNombre())
 						.claim("mail", username)

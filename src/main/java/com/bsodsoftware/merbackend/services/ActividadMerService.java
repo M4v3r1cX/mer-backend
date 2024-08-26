@@ -18,6 +18,7 @@ import com.bsodsoftware.merbackend.jpa.entities.ActividadMer;
 import com.bsodsoftware.merbackend.jpa.entities.Auditoria;
 import com.bsodsoftware.merbackend.jpa.entities.Libro;
 import com.bsodsoftware.merbackend.jpa.entities.Nivel;
+import com.bsodsoftware.merbackend.jpa.entities.ObjetivoAprendizajeHijo;
 import com.bsodsoftware.merbackend.jpa.entities.Propiedad;
 import com.bsodsoftware.merbackend.jpa.entities.Red;
 import com.bsodsoftware.merbackend.jpa.entities.SubcategoriaRed;
@@ -150,6 +151,11 @@ public class ActividadMerService {
 		ret.setId(amer.getId() + "");
 		ret.setIdTm(amer.getTareaMatematica().getId() + "");
 		ret.setImagenReferencia("data:image/jpg;base64," + getImagenB64(amer.getImagenReferencia()));
+		ret.setSeleccionado(false);
+		String ruta = "";
+		ObjetivoAprendizajeHijo hijo = amer.getTareaMatematica().getObjetivoAprendizajeHijo();
+		ruta = hijo.getNiveles().get(0).getId() + "° > " + hijo.getObjetivoAprendizaje().getNombre();
+		ret.setRuta(ruta);
 		return ret;
 	}
 	

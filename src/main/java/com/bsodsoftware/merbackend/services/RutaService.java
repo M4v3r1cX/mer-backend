@@ -2,6 +2,7 @@ package com.bsodsoftware.merbackend.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,12 @@ public class RutaService {
 	@Autowired
 	private ActividadMerService actividadMerService;
 	
-	public Ruta save(CrearRutaDTO rutaDto, Usuario usuario) {
+	@Autowired
+	private UsuarioService usuarioService;
+	
+	public Ruta save(CrearRutaDTO rutaDto, Long idUsuario) {
+		Optional<Usuario> usuarioopt = usuarioService.findById(idUsuario);
+		Usuario usuario = usuarioopt.get();
 		Ruta r = new Ruta();
 		r.setUsuario(usuario);
 		r.setNombre(rutaDto.getNombre());

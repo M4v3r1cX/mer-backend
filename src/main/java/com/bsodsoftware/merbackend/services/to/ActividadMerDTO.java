@@ -13,6 +13,7 @@ public class ActividadMerDTO {
 	private String id;
 	private String idTm;
 	private Boolean seleccionado;
+	private String ruta;
 	
 	public String getNombre() {
 		return nombre;
@@ -73,5 +74,11 @@ public class ActividadMerDTO {
 	}
 	public void setSeleccionado(Boolean seleccionado) {
 		this.seleccionado = seleccionado;
+	}
+	public String getRuta() {
+		return ruta;
+	}
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
 	}
 }
