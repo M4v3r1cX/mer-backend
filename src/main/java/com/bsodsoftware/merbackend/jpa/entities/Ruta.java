@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -26,6 +27,9 @@ public class Ruta {
 	
 	@Column(name = "nombre")
 	private String nombre;
+	
+	@Column(name = "json_ruta", columnDefinition="TEXT")
+	private String jsonRuta;
 	
 	@ManyToMany
 	@JoinTable(
@@ -75,5 +79,13 @@ public class Ruta {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getJsonRuta() {
+		return jsonRuta;
+	}
+
+	public void setJsonRuta(String jsonRuta) {
+		this.jsonRuta = jsonRuta;
 	}
 }
