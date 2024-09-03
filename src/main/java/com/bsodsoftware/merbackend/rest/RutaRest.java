@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,6 +66,30 @@ public class RutaRest {
 				ret = rutaService.getRutasDeUsuario(idUsuario);
 			}
 		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return ret;
+	}
+	
+	@GetMapping("/deleteRutaUsuario")
+	@CrossOrigin
+	@ResponseBody
+	public ResponseDTO deleteRutaUsuario(@RequestHeader("Authorization") String token, @RequestParam("id") Long id) {
+		ResponseDTO ret = new ResponseDTO();
+		try {
+			Long idUsuario = securityService.validateToken(token);
+			if (!idUsuario.equals(-1L)) {
+				rutaService.delete(id);
+				ret.setCodigo(200);
+				ret.setComentario("Ruta eliminada correctamente.");
+			} else {
+				ret.setCodigo(500);
+				ret.setComentario("Usuario de token no encontrado");
+			}
+		} catch (Exception ex) {
+			ret.setCodigo(500);
+			ret.setComentario(ex.getMessage());
 			ex.printStackTrace();
 		}
 		
